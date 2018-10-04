@@ -3,3 +3,6 @@
 .project
 .settings/*
 rapid-xml-1.13
+zork
+rapidxml*/*
+inc/rapidxml*
