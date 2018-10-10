@@ -5,7 +5,7 @@
 - GameObject class that every object in the game will inherit from. This way we can use standard containers to keep track of all objects regardless of their actual type. 
 -Using RapidXML parser -- pretty simple to use, shouldn't be a problem. I've found out how to iterate through it already, so it's just a matter of doing some tests.
 - Makefile: I made a Makefile for this. Hopefully that works for you guys, if you're using Eclipse you can just set it up as a "Makefile Project". I'll work on this a little more later, but the structure will look like this:
-
+```
 --Zork
   -src
     -*.cpp files
@@ -15,5 +15,5 @@
   -obj
     -*.o files
   -zork executable
-
+```
 Right now I have 2 targets, regular "make", and a "make clean"
