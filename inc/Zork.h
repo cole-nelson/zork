@@ -16,7 +16,7 @@ private:
 public:
 	Zork();
 	virtual ~Zork();
-	void constructGame();
+	void constructGame(const char *fname);
 	void playGame();
 };
 

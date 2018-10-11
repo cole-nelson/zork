@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS := -g -std=c++11 -Wvla -Wall -Werror -Wshadow --pedantic
+CXXFLAGS := -g -std=c++11 -Wvla -Wall -Werror --pedantic
 INC := $(wildcard inc/*.h)
 SRC := $(wildcard src/*.cpp)
 OBJ := $(patsubst src/%.cpp, obj/%.o, $(SRC))

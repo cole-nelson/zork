@@ -6,6 +6,13 @@
 
 int main() {
 	Zork zork = Zork();
+	/*try {
+		zork.constructGame("test.xml");
+	} catch(const char *err) {
+		std::cout << err;
+	}*/
+
+	zork.playGame();
 
     return 0;
 }

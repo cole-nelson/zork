@@ -17,7 +17,7 @@ private:
 	std::string description;
 	std::string writing;
 public:
-	Item();
+	Item(std::string na, std::string st, std::string des, std::string wr);
 	virtual ~Item();
 
 	std::string getName() {return name;}
