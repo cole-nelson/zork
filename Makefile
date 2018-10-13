@@ -7,6 +7,7 @@ OBJ := $(patsubst src/%.cpp, obj/%.o, $(SRC))
 all: zork
 
 zork: $(OBJ) $(INC)
+	mkdir -p obj
 	$(CXX) $(CXXFLAGS) $(OBJ) -o zork
 
 obj/%.o: src/%.cpp

@@ -1,7 +1,9 @@
 #include <string>
 #include <iostream>
-#include "../inc/container.h"
+#include "../inc/Container.h"
 
-container::container(string na, string st, string des : name(na), status(st), description(des) {}
+Container::Container(string na, string st, string des):
+    GameObject(na, st, des)
+{}
 
-container::~container() {}
+Container::~Container() {}

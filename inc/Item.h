@@ -10,20 +10,18 @@
 
 #include "GameObject.h"
 
+using namespace std;
 class Item : public GameObject {
 private:
-	std::string name;
-	std::string status;
-	std::string description;
-	std::string writing;
+	string writing;
 public:
-	Item(std::string na, std::string st, std::string des, std::string wr);
+	Item(string na, string st, string des, string wr);
 	virtual ~Item();
 
-	std::string getName() {return name;}
-	std::string getStatus() {return status;}
-	std::string getDescription() {return description;}
-	std::string getWriting() {return writing;}
+	string getName() {return name;}
+	string getStatus() {return stat;}
+	string getDescription() {return desp;}
+	string getWriting() {return writing;}
 };
 
 
