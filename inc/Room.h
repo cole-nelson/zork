@@ -13,7 +13,10 @@ private:
     string west;
     string east;
 public:
-    Room(string (&args)[4], string (&dirs)[4]);
+    Room(string, string, string, string,
+    //   ^name   ^status ^des    ^type
+         string, string, string, string);
+    //   ^north  ^south  ^west   ^east
 	virtual ~Room();
 };
 
