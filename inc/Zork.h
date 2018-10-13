@@ -12,7 +12,7 @@
 class Zork {
 private:
 	bool gameOver;
-	std::unordered_map<std::string, GameObject> gameObjs;
+	std::unordered_map<std::string, GameObject*> gameObjs;
 public:
 	Zork();
 	virtual ~Zork();

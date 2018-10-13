@@ -33,7 +33,7 @@ void Zork::constructGame(const char *fname) {
 
 
 	// Iterate, spawn items, add to Zork table
-	while(root != doc.last_node()) {
+	while(root != NULL) {
 		rapidxml::xml_node<> *attr;
 
 		std::string name, status, description, writing;
@@ -53,7 +53,7 @@ void Zork::constructGame(const char *fname) {
 			}
 		}
 		if(root->name() == (std::string)"item") {
-			gameObjs[name] = Item(name, status, description, writing);
+			gameObjs[name] = new Item(name, status, description, writing);
 		}
 		root = root->next_sibling();
 	}
