@@ -14,5 +14,5 @@ obj/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm zork
-	rm -rf obj/*
+	rm -f zork
+	rm -rf obj
