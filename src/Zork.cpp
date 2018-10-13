@@ -7,6 +7,7 @@
 #include "../inc/rapidxml.hpp"
 #include "../inc/GameObject.h"
 #include "../inc/Zork.h"
+#include "../inc/Item.h"
 
 Zork::Zork() : gameOver(false) {}
 
@@ -32,10 +33,27 @@ void Zork::constructGame(const char *fname) {
 
 
 	// Iterate, spawn items, add to Zork table
-	std::cout << root->name() << std::endl;
 	while(root != doc.last_node()) {
-		if(root->name() == "item") {
-			gameObjs[] = Item();
+		rapidxml::xml_node<> *attr;
+
+		std::string name, status, description, writing;
+		for(attr = root->first_node(); attr != NULL; attr = attr->next_sibling()) {
+			if(attr->name() == (std::string)"name") {
+				name = attr->value();
+			} else if(attr->name() == (std::string)"status") {
+				status = attr->value();
+			} else if(attr->name() == (std::string)"description") {
+				description = attr->value();
+			} else {
+				if(root->name() == (std::string)"item") {
+					if(attr->name() == (std::string)"writing") {
+						writing = attr->value();
+					}
+				}
+			}
+		}
+		if(root->name() == (std::string)"item") {
+			gameObjs[name] = Item(name, status, description, writing);
 		}
 		root = root->next_sibling();
 	}
@@ -43,7 +61,5 @@ void Zork::constructGame(const char *fname) {
 }
 
 void Zork::playGame() {
-	while(!gameOver) {
-		std::cout << "お前はもう死んでいる" << std::endl;
-	}
+
 }
