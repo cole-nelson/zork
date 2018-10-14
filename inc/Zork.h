@@ -8,7 +8,7 @@
 #ifndef INC_ZORK_H_
 #define INC_ZORK_H_
 
-#include "player.h"
+#include "Player.h"
 
 class Zork {
 private:
