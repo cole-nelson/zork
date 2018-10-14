@@ -8,11 +8,13 @@
 #ifndef INC_ZORK_H_
 #define INC_ZORK_H_
 
+#include "player.h"
 
 class Zork {
 private:
 	bool gameOver;
 	std::unordered_map<std::string, GameObject*> gameObjs;
+    Player player;
 public:
 	Zork();
 	virtual ~Zork();

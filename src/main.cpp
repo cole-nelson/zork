@@ -5,14 +5,14 @@
 #include "../inc/Zork.h"
 
 int main() {
-	Zork zork = Zork();
-	try {
-		zork.constructGame("test.xml");
-	} catch(const char *err) {
-		std::cout << err;
-	}
+    Zork zork = Zork();
+    try {
+        zork.constructGame("test.xml");
+    } catch(const char *err) {
+        std::cout << err;
+    }
 
-	zork.playGame();
+    zork.playGame();
 
     return 0;
 }
