@@ -30,6 +30,9 @@ public:
 	GameObject(){};
 	GameObject(string, string, string);
 	virtual ~GameObject();
+    virtual string getName();
+	virtual string getStatus(); 
+	virtual string getDescription();
 };
 
 

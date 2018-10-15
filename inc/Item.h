@@ -18,9 +18,6 @@ public:
 	Item(string na, string st, string des, string wr);
 	virtual ~Item();
 
-	string getName() {return name;}
-	string getStatus() {return stat;}
-	string getDescription() {return desp;}
 	string getWriting() {return writing;}
 };
 

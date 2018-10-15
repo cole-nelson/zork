@@ -11,3 +11,19 @@ Room::Room(string name, string stat, string des, string type,
 
 Room::~Room(){
 }
+
+string Room::get_neighbor(Direction dir){
+    switch(dir){
+        case NORTH:
+            return north;
+        case SOUTH:
+            return south;
+        case WEST:
+            return west;
+        case EAST:
+            return east;
+        default:
+            return "NULL";
+    }
+    
+}

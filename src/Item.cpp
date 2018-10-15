@@ -8,6 +8,3 @@ Item::Item(std::string na, std::string st, std::string des, std::string wr) :
 
 Item::~Item() {}
 
-void run() {
-	std::cout << "Hi" << std::endl;
-}

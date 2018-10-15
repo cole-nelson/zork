@@ -83,7 +83,7 @@ void Zork::constructGame(const char *fname) {
 void Zork::playGame() {
     std::cout << "Welcome to Zork" << std::endl;
     // initialization
-    // Room* loc_now = dynamic_cast<Room*>(gameObjs["Entrance"]); //kinda ugly
+    Room* loc_now = dynamic_cast<Room*>(gameObjs["Entrance"]); //kinda ugly
     
     while(true){
         if(gameOver) break;
@@ -98,12 +98,16 @@ void Zork::playGame() {
         }
         
         if(cmd == "n"){
+            loc_now = player.move(NORTH, loc_now, gameObjs);
         }
         else if(cmd == "s"){
+            loc_now = player.move(SOUTH, loc_now, gameObjs);
         }
         else if(cmd == "w"){
+            loc_now = player.move(WEST, loc_now, gameObjs);
         }
         else if(cmd == "e"){
+            loc_now = player.move(EAST, loc_now, gameObjs);
         }
         else if(cmd == "i"){
         }

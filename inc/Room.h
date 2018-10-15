@@ -9,6 +9,14 @@
 #include "../inc/Creature.h"
 
 using namespace std;
+
+enum Direction{
+    NORTH,
+    SOUTH,
+    WEST,
+    EAST
+};
+
 class Room: public GameObject {
 private:
     string type;
@@ -26,6 +34,7 @@ public:
          string, string, string, string);
     //   ^north  ^south  ^west   ^east
 	virtual ~Room();
+    string get_neighbor(Direction);
 };
 
 #endif /* INC_GAMEOBJECT_H_ */

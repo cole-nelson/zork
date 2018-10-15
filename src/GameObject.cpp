@@ -7,3 +7,7 @@ GameObject::GameObject(string name, string stat, string desp):
 }
 
 GameObject::~GameObject() {}
+
+string GameObject::getName() {return name;}
+string GameObject::getStatus() {return stat;} 
+string GameObject::getDescription() {return desp;}
