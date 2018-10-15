@@ -9,11 +9,14 @@
 #define INC_ZORK_H_
 
 #include "Player.h"
+#include <unordered_map>
+
+using namespace std;
 
 class Zork {
 private:
 	bool gameOver;
-	std::unordered_map<std::string, GameObject*> gameObjs;
+	unordered_map<string, GameObject*> gameObjs;
     Player player;
 public:
 	Zork();

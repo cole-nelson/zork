@@ -12,6 +12,23 @@
 #include "../inc/Creature.h"
 #include "../inc/Item.h"
 
+std::vector<std::string> _SplitString(const std::string& s, const std::string& c){
+
+    std::vector<std::string> v;
+    std::string::size_type pos1, pos2;
+    pos2 = s.find(c);
+    pos1 = 0;
+    while(std::string::npos != pos2){
+        v.push_back(s.substr(pos1, pos2-pos1));
+
+        pos1 = pos2 + c.size();
+        pos2 = s.find(c, pos1);
+    }
+    if(pos1 != s.length()) v.push_back(s.substr(pos1));
+
+    return v;
+}
+
 Zork::Zork() : gameOver(false) {}
 
 Zork::~Zork() {}
@@ -65,5 +82,47 @@ void Zork::constructGame(const char *fname) {
 
 void Zork::playGame() {
     std::cout << "Welcome to Zork" << std::endl;
-
+    // initialization
+    // Room* loc_now = dynamic_cast<Room*>(gameObjs["Entrance"]); //kinda ugly
+    
+    while(true){
+        if(gameOver) break;
+        string cmd, target;
+        getline(cin, cmd);
+        cout << cmd << endl;
+        
+        vector<string> cmd_ls = _SplitString(cmd, " ");
+        if(cmd_ls.size() == 2){
+            cmd = cmd_ls[0];
+            target = cmd_ls[1];
+        }
+        
+        if(cmd == "n"){
+        }
+        else if(cmd == "s"){
+        }
+        else if(cmd == "w"){
+        }
+        else if(cmd == "e"){
+        }
+        else if(cmd == "i"){
+        }
+        else if(cmd == "take"){
+        }
+        else if(cmd == "open"){
+        }
+        else if(cmd == "read"){
+        }
+        else if(cmd == "drop"){
+        }
+        else if(cmd == "put"){
+        }
+        else if(cmd == "turn" && target == "on"){
+        }
+        else if(cmd == "attack"){
+        }
+        else{
+            cout << "not recognized" << endl;
+        }
+    }
 }
