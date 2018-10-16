@@ -11,8 +11,11 @@ Room* Player::move(Direction dir, Room* from,
         cout << "you cannot go that direction" << endl;
         return from;
     }
+    
 
-    return dynamic_cast<Room*>(gameObjs[room_name]);
+    Room* ret = dynamic_cast<Room*>(gameObjs[room_name]);
+    cout << ret -> getDescription() << endl;
+    return ret;
 }
 
 void Player::open_inventory(){
