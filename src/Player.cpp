@@ -8,7 +8,7 @@ Room* Player::move(Direction dir, Room* from,
 {
     string room_name = from->get_neighbor(dir); 
     if(room_name == "NULL"){
-        cout << "you cannot go that direction" << endl;
+        cout << "Can't go that way" << endl;
         return from;
     }
     

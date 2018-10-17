@@ -60,7 +60,6 @@ void Zork::constructGame(const char *fname) {
                 attr != NULL; attr = attr->next_sibling()) {
             if(attr->name() == (string)"name") {
                 name = attr->value();
-                cout << name << endl;
             } else if(attr->name() == (string)"status") {
                 stat = attr->value();
             } else if(attr->name() == (string)"description") {
@@ -105,12 +104,12 @@ void Zork::playGame() {
     std::cout << "Welcome to Zork" << std::endl;
     // initialization
     Room* loc_now = dynamic_cast<Room*>(gameObjs["Entrance"]); //kinda ugly
-    
+    cout << loc_now->getDescription() << endl;
     while(true){
         if(gameOver) break;
         string cmd, target;
+        cout << '>';
         getline(cin, cmd);
-        cout << cmd << endl;
         
         vector<string> cmd_ls = _SplitString(cmd, " ");
         if(cmd_ls.size() == 2){
@@ -147,7 +146,7 @@ void Zork::playGame() {
         else if(cmd == "attack"){
         }
         else{
-            cout << "not recognized" << endl;
+            cout << "error" << endl;
         }
     }
 }
