@@ -140,7 +140,6 @@ void Zork::constructGame(const char *fname) {
     // spwan all room
     root = doc.first_node()->first_node();
     while(root != NULL){
-        unordered_map<string, string> borders;
         if(root->name() == (string)"room"){
             Room* new_room = new Room();   
             for(rapidxml::xml_node<> *attr = root->first_node(); 
@@ -170,10 +169,6 @@ void Zork::constructGame(const char *fname) {
                 } else if(attr->name() == (string)"item") {
                     new_room->addItem(*dynamic_cast<Item*>(originalObjs[attr->value()]));
                 }
-                if(borders.find("north") == borders.end()) borders["north"] = "NULL";
-                if(borders.find("south") == borders.end()) borders["south"] = "NULL";
-                if(borders.find("east") == borders.end()) borders["east"] = "NULL";
-                if(borders.find("west") == borders.end()) borders["west"] = "NULL";
             }
         }
         root = root->next_sibling();
