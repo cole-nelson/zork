@@ -17,6 +17,6 @@ public:
     virtual ~Player();
 
     Room* move(Direction, Room*, unordered_map<string, GameObject*>&);
-    void open_inventory();
+    void openInventory();
 };
 #endif

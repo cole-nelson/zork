@@ -18,7 +18,7 @@ Room* Player::move(Direction dir, Room* from,
     return ret;
 }
 
-void Player::open_inventory(){
+void Player::openInventory(){
     for(auto item:inventory){
         cout << item->getName() << " ";
     }

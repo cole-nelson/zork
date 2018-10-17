@@ -56,6 +56,7 @@ void Zork::constructGame(const char *fname) {
 
         string name="", stat="", description="", writing="", type="";
         unordered_map<string,string>  borders;
+        unordered_map<string,Item*>  inventory;
         for(rapidxml::xml_node<> *attr = root->first_node(); 
                 attr != NULL; attr = attr->next_sibling()) {
             if(attr->name() == (string)"name") {
@@ -64,7 +65,7 @@ void Zork::constructGame(const char *fname) {
                 stat = attr->value();
             } else if(attr->name() == (string)"description") {
                 description = attr->value();
-            } else if(root->name() == (string)"item") {
+            }  else if(root->name() == (string)"item") {
                 if(attr->name() == (string)"writing") {
                     writing = attr->value();
                 }
@@ -82,6 +83,10 @@ void Zork::constructGame(const char *fname) {
                     }
                     borders[dir]=dir_name;
                 }
+                else if(attr->name() == (string)"item"){
+                // what if multiple item with same name????
+                    
+                }
             }
 
             if(root->name() == (string)"item") {
@@ -92,7 +97,7 @@ void Zork::constructGame(const char *fname) {
                 if(borders.find("south") == borders.end()) borders["south"] = "NULL";
                 if(borders.find("east") == borders.end()) borders["east"] = "NULL";
                 if(borders.find("west") == borders.end()) borders["west"] = "NULL";
-                gameObjs[name] = new Room(name, stat, description, type, borders);   
+                gameObjs[name] = new Room(name, stat, description, type, borders, inventory);   
             }
         }
         root = root->next_sibling();
@@ -130,6 +135,7 @@ void Zork::playGame() {
             loc_now = player.move(EAST, loc_now, gameObjs);
         }
         else if(cmd == "i"){
+            player.openInventory();
         }
         else if(cmd == "take"){
         }

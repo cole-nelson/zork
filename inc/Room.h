@@ -24,15 +24,17 @@ private:
     string south;
     string west;
     string east;
-    unordered_map<string, Container> containers;
-    unordered_map<string, Item> items;
-    unordered_map<string, Creature> creatures;
+    unordered_map<string, Container*> containers;
+    unordered_map<string, Item*> inventory;
+    unordered_map<string, Creature*> creatures;
 
 public:
     Room(string, string, string, string,
     //   ^name   ^status ^des    ^type
-         unordered_map<string, string>& borders);
-    //   ^north  ^south  ^west   ^east
+         unordered_map<string, string>&,
+    //      ^directions
+         unordered_map<string, Item*>&);
+    //      ^inventory
 	virtual ~Room();
     string get_neighbor(Direction);
 };

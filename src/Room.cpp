@@ -3,15 +3,15 @@
 #include "../inc/Room.h"
 
 Room::Room(string name, string stat, string des, string type, 
-            unordered_map<string, string>& borders):
+            unordered_map<string, string>& borders,
+            unordered_map<string, Item*>& inventory):
     GameObject(name, stat, des),type(type),
     north(borders["north"]),south(borders["south"]),
-    west(borders["west"]),east(borders["east"])
-{
-}
+    west(borders["west"]),east(borders["east"]),
+    inventory(inventory)
+{}
 
-Room::~Room(){
-}
+Room::~Room(){}
 
 string Room::get_neighbor(Direction dir){
     switch(dir){
