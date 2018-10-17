@@ -12,12 +12,14 @@
 using namespace std;
 
 class Player{
-    vector<Item*> inventory;
+    vector<Item> inventory;
 public:
     Player();
     virtual ~Player();
 
     Room* move(Direction, Room*, unordered_map<string, Room*>&);
+    void addItem(Item&);
+    Item* delItem(string);
     void openInventory();
 };
 #endif

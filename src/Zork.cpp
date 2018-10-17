@@ -214,12 +214,22 @@ void Zork::playGame() {
             player.openInventory();
         }
         else if(cmd == "take"){
+            Item* targetItem = loc_now->delItem(target);
+
+            if(!targetItem) continue;
+            player.addItem(*targetItem);
+            delete targetItem;
         }
         else if(cmd == "open"){
         }
         else if(cmd == "read"){
         }
         else if(cmd == "drop"){
+            Item* targetItem = player.delItem(target);
+
+            if(!targetItem) continue;
+            loc_now->addItem(*targetItem);
+            delete targetItem;
         }
         else if(cmd == "put"){
         }
