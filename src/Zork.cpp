@@ -12,15 +12,14 @@
 #include "../inc/Creature.h"
 #include "../inc/Item.h"
 
-std::vector<std::string> _SplitString(const std::string& s, const std::string& c){
+vector<string> _SplitString(const string& s, const string& c){
 
-    std::vector<std::string> v;
-    std::string::size_type pos1, pos2;
+    vector<string> v;
+    string::size_type pos1, pos2;
     pos2 = s.find(c);
     pos1 = 0;
-    while(std::string::npos != pos2){
+    while(string::npos != pos2){
         v.push_back(s.substr(pos1, pos2-pos1));
-
         pos1 = pos2 + c.size();
         pos2 = s.find(c, pos1);
     }
@@ -54,26 +53,48 @@ void Zork::constructGame(const char *fname) {
 
     // Iterate, spawn items, add to Zork table
     while(root != NULL) {
-        rapidxml::xml_node<> *attr;
 
-        std::string name, status, description, writing;
-        for(attr = root->first_node(); attr != NULL; attr = attr->next_sibling()) {
-            if(attr->name() == (std::string)"name") {
+        string name="", stat="", description="", writing="", type="";
+        unordered_map<string,string>  borders;
+        for(rapidxml::xml_node<> *attr = root->first_node(); 
+                attr != NULL; attr = attr->next_sibling()) {
+            if(attr->name() == (string)"name") {
                 name = attr->value();
-            } else if(attr->name() == (std::string)"status") {
-                status = attr->value();
-            } else if(attr->name() == (std::string)"description") {
+                cout << name << endl;
+            } else if(attr->name() == (string)"status") {
+                stat = attr->value();
+            } else if(attr->name() == (string)"description") {
                 description = attr->value();
-            } else {
-                if(root->name() == (std::string)"item") {
-                    if(attr->name() == (std::string)"writing") {
-                        writing = attr->value();
+            } else if(root->name() == (string)"item") {
+                if(attr->name() == (string)"writing") {
+                    writing = attr->value();
+                }
+            } else if(root->name() == (string)"room"){
+                if(attr->name() == (string)"border"){
+                    string dir, dir_name = "NULL";
+                    for(rapidxml::xml_node<> *node = attr->first_node();
+                            node != NULL; node = node->next_sibling()) {
+                        if(node->name() == (string)"direction"){
+                            dir = node->value();
+                        }
+                        if(node->name() == (string)"name"){
+                            dir_name = node->value();
+                        }
                     }
+                    borders[dir]=dir_name;
                 }
             }
-        }
-        if(root->name() == (std::string)"item") {
-            gameObjs[name] = new Item(name, status, description, writing);
+
+            if(root->name() == (string)"item") {
+                gameObjs[name] = new Item(name, stat, description, writing);
+            }
+            if(root->name() == (string)"room"){
+                if(borders.find("north") == borders.end()) borders["north"] = "NULL";
+                if(borders.find("south") == borders.end()) borders["south"] = "NULL";
+                if(borders.find("east") == borders.end()) borders["east"] = "NULL";
+                if(borders.find("west") == borders.end()) borders["west"] = "NULL";
+                gameObjs[name] = new Room(name, stat, description, type, borders);   
+            }
         }
         root = root->next_sibling();
     }

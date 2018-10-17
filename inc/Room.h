@@ -31,7 +31,7 @@ private:
 public:
     Room(string, string, string, string,
     //   ^name   ^status ^des    ^type
-         string, string, string, string);
+         unordered_map<string, string>& borders);
     //   ^north  ^south  ^west   ^east
 	virtual ~Room();
     string get_neighbor(Direction);
