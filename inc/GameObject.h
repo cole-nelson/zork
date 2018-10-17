@@ -28,8 +28,14 @@ protected:
     string desp;
 public:
 	GameObject(){};
-	GameObject(string, string, string);
-	virtual ~GameObject();
+    GameObject(const GameObject&);
+	GameObject(string, string, string); // dont really need
+	virtual ~GameObject();              
+
+    virtual void setName(string);             // these are better
+    virtual void setStatus(string);
+    virtual void setDescription(string);
+
     virtual string getName();
 	virtual string getStatus(); 
 	virtual string getDescription();

@@ -4,19 +4,20 @@
 #include "GameObject.h"
 #include "Item.h"
 #include "Room.h"
-#include <unordered_set>
+
+#include <unordered_map>
 #include <iostream>
 #include <string>
 
 using namespace std;
 
 class Player{
-    unordered_set<Item*> inventory;
+    vector<Item*> inventory;
 public:
     Player();
     virtual ~Player();
 
-    Room* move(Direction, Room*, unordered_map<string, GameObject*>&);
+    Room* move(Direction, Room*, unordered_map<string, Room*>&);
     void openInventory();
 };
 #endif

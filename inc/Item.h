@@ -15,6 +15,8 @@ class Item : public GameObject {
 private:
 	string writing;
 public:
+    Item();
+    Item(const Item&);
 	Item(string na, string st, string des, string wr);
 	virtual ~Item();
 

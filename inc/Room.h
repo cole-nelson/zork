@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include "../inc/GameObject.h"
 #include "../inc/Container.h"
 #include "../inc/Item.h"
@@ -22,21 +23,22 @@ private:
     string type;
     string north;
     string south;
-    string west;
     string east;
-    unordered_map<string, Container*> containers;
-    unordered_map<string, Item*> inventory;
-    unordered_map<string, Creature*> creatures;
-
+    string west;
+    vector<Item> inventory;         // vector is fine for now...
+    vector<Container> containers;   // probably change these three to multi set...
+    vector<Creature> creatures;     // since might sotre same object multiple times
 public:
-    Room(string, string, string, string,
-    //   ^name   ^status ^des    ^type
-         unordered_map<string, string>&,
-    //      ^directions
-         unordered_map<string, Item*>&);
-    //      ^inventory
+    Room();
 	virtual ~Room();
-    string get_neighbor(Direction);
+    void setNeighbor(string, string);
+    string getNeighbor(Direction);
+    void addItem(Item);
+    void addContainer(Container);
+    void addCreature(Creature);
+    Item*       delItem     (string);
+    Container*  delContainer(string);
+    Creature*   delCreature (string);
 };
 
 #endif /* INC_GAMEOBJECT_H_ */

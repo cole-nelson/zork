@@ -4,16 +4,16 @@ Player::Player(){}
 Player::~Player(){}
 
 Room* Player::move(Direction dir, Room* from, 
-        unordered_map<string, GameObject*>& gameObjs)
+        unordered_map<string, Room*>& rooms)
 {
-    string room_name = from->get_neighbor(dir); 
+    string room_name = from->getNeighbor(dir); 
     if(room_name == "NULL"){
         cout << "Can't go that way" << endl;
         return from;
     }
     
 
-    Room* ret = dynamic_cast<Room*>(gameObjs[room_name]);
+    Room* ret = rooms[room_name];
     cout << ret -> getDescription() << endl;
     return ret;
 }
