@@ -3,6 +3,16 @@
 Player::Player(){}
 Player::~Player(){}
 
+vector<Item>::iterator Player::searchInventory(string name){
+    for(auto it = inventory.begin(); it != inventory.end(); it++){
+        if(it->getName() == name){
+            return it; 
+        }
+    }
+    cout << "item does not exist" << endl;
+    return inventory.end();
+}
+
 Room* Player::move(Direction dir, Room* from, 
         unordered_map<string, Room*>& rooms)
 {
@@ -23,15 +33,21 @@ void Player::addItem(Item& item){
 }
 
 Item* Player::delItem(string name){
-    for(auto it = inventory.begin(); it != inventory.end(); it++){
-        if(it->getName() == name){
-            Item* ret = new Item(*it);
-            inventory.erase(it);
-            return ret; 
-        }
+    auto it = searchInventory(name);
+    if(it != inventory.end()){
+        Item* ret = new Item(*it);
+        inventory.erase(it);
+        return ret; 
     }
-    cout << "item does not exist" << endl;
+    
     return NULL;
+}
+
+void Player::readItem(string name){
+    auto it = searchInventory(name);
+    if(it != inventory.end()){
+        it->getWriting();  
+    }
 }
 
 void Player::openInventory(){

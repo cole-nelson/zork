@@ -183,14 +183,22 @@ void Zork::playGame() {
     cout << loc_now->getDescription() << endl;
     while(true){
         if(gameOver) break;
-        string cmd, target;
+        string cmd, target, target_container;
         cout << '>';
         getline(cin, cmd);
         
         vector<string> cmd_ls = _SplitString(cmd, " ");
-        if(cmd_ls.size() == 2){
+        if(cmd_ls.size() == 2){// take <item> | drop <itemp> | 
+                               // read <item> | turn on
             cmd = cmd_ls[0];
             target = cmd_ls[1];
+        }
+
+        if(cmd_ls.size() == 4) // put <item> in <container>
+        {
+            cmd = cmd_ls[0];
+            target = cmd_ls[1];
+            target_container = cmd_ls[3];
         }
         
         if(cmd == "n"){
@@ -218,6 +226,8 @@ void Zork::playGame() {
         else if(cmd == "open"){
         }
         else if(cmd == "read"){
+            
+
         }
         else if(cmd == "drop"){
             Item* targetItem = player.delItem(target);
@@ -226,7 +236,7 @@ void Zork::playGame() {
             loc_now->addItem(*targetItem);
             delete targetItem;
         }
-        else if(cmd == "put"){
+        else if(cmd == "put" && cmd_ls[3] == "in"){
         }
         else if(cmd == "turn" && target == "on"){
         }

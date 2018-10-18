@@ -2,7 +2,9 @@
 #include <iostream>
 #include "../inc/Item.h"
 
-Item::Item(){}
+Item::Item():
+    GameObject(),
+    writing("Nothing written"){}
 
 Item::Item(const Item& orig):
     GameObject(orig),
