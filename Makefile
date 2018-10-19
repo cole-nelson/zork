@@ -16,3 +16,4 @@ obj/%.o: src/%.cpp
 clean:
 	rm -f zork
 	rm -rf obj
+

@@ -15,5 +15,7 @@ public:
     Container(const Container& orig);
 	Container(string na, string sts, string des);
 	virtual ~Container();
+
+    void addAccept(string);
 };
 #endif

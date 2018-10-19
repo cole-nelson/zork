@@ -61,14 +61,13 @@ void Zork::constructGame(const char *fname) {
     root = doc.first_node()->first_node();
     while(root != NULL) {
 
-        string name="", stat="", description="", writing="", type="";
         if(root->name() == (string)"item"){
+            Item* new_Item = new Item();
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
                 string attrName(attr->name());
                 string attrValue(attr->value());
-                Item* new_Item = new Item();
                 if(attrName == "name") {
                     new_Item->setName(attrValue);
                 } else if(attrName == "status") {
@@ -80,8 +79,8 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName == "turn on") {
                     // do something
                 }
-                originalObjs[name] = new_Item; 
             }
+            originalObjs[new_Item->getName()] = new_Item; 
         }
         root = root->next_sibling();
     }
@@ -90,30 +89,29 @@ void Zork::constructGame(const char *fname) {
     root = doc.first_node()->first_node();
     while(root != NULL) {
 
-        string name="", stat="", description="", writing="", type="";
         //unordered_set<string>* accept = new unordered_set<string>;
         if(root->name() == (string)"container"){
+            Container* new_container = new Container();
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
 
                 string attrName(attr->name());
                 string attrValue(attr->value());
-                Container* new_container = new Container();
                 if(attrName == "name") {
                     new_container->setName(attrValue);
                 } else if(attrName == "status") {
-                    stat = attr->value();
+                    new_container->setStatus(attrValue);
                 } else if(attrName == "description") {
-                    description = attr->value();
+                    new_container->setDescription(attrValue);
                 } else if(attrName ==  "accept") {
-                    //accept->insert(attr->value());
+                    new_container->addAccept(attrValue);
                 } else if(attrName == "trigger") {
                     // do something
                 }
-                //spwan a new container
-                //originalObjs[name] = new Container(); 
             }
+            //spwan a new container
+            originalObjs[new_container->getName()] = new_container;
         }
         root = root->next_sibling();
     }
@@ -122,28 +120,29 @@ void Zork::constructGame(const char *fname) {
     root = doc.first_node()->first_node();
     while(root != NULL) {
 
-        string name="", stat="", description="", writing="", type="";
-        unordered_set<string>* vulnerabilities = new unordered_set<string>;
         if(root->name() == (string)"creature"){
+            Creature* new_creature = new Creature();
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
-                if(attr->name() == (string)"name") {
-                    name = attr->value();
-                } else if(attr->name() == (string)"status") {
-                    stat = attr->value();
-                } else if(attr->name() == (string)"description") {
-                    description = attr->value();
-                } else if(attr->name() == (string)"vulnerability") {
-                    vulnerabilities->insert(attr->value());
-                } else if(attr->name() == (string) "attack") {
+                string attrName(attr->name());
+                string attrValue(attr->value());
+                if(attrName == "name") {
+                    new_creature->setName(attrValue);
+                } else if(attrName == "status") {
+                    new_creature->setStatus(attrValue);
+                } else if(attrName == "description") {
+                    new_creature->setDescription(attrValue);
+                } else if(attrName == "vulnerability") {
+                    new_creature->addVulnerability(attrValue);
+                } else if(attrName ==  "attack") {
                     // do something
-                } else if(attr->name() == (string)"trigger") {
+                } else if(attrName == "trigger") {
                     // do something
                 }
-                //spwan a new creature
-                //originalObjs[name] = new Creature(); 
             }
+            //spwan a new creature
+            originalObjs[new_creature->getName()] = new_creature;
         }
         root = root->next_sibling();
     }
@@ -179,8 +178,8 @@ void Zork::constructGame(const char *fname) {
                         else if(nodeName == "name")dir_name = nodeValue;
                     }
                     new_room->setNeighbor(dir,dir_name);
-                } else if(attr->name() == (string)"item") {
-                    new_room->addItem(*dynamic_cast<Item*>(originalObjs[attr->value()]));
+                } else if(attrName == "item") {
+                    new_room->addItem(*dynamic_cast<Item*>(originalObjs[attrValue]));
                 }
             }
         }

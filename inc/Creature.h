@@ -1,16 +1,20 @@
 #ifndef INC_CREATURE_H_
 #define INC_CREATURE_H_
 #include <vector>
+#include <unordered_set>
 #include "GameObject.h"
+
 using namespace std;
+
 class Creature : public GameObject {
 private:
-	vector<string> vulnerability;
+	unordered_set<string> vulnerabilities;
 public:
+    Creature();
+    Creature(const Creature&);
 	Creature(string na, string sts, string des);
 	virtual ~Creature();
-	string getName() {return name;}
-	string getStatus() {return stat;}
-	string getDescription() {return desp;}
+
+    void addVulnerability(string);
 };
 #endif
