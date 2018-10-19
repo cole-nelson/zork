@@ -27,7 +27,7 @@ protected:
     string stat;
     string desp;
 public:
-	GameObject(){};
+	GameObject();
     GameObject(const GameObject&);
 	GameObject(string, string, string); // dont really need
 	virtual ~GameObject();              

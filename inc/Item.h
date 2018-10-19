@@ -20,7 +20,8 @@ public:
 	Item(string na, string st, string des, string wr);
 	virtual ~Item();
 
-	string getWriting() {return writing;}
+    void setWriting(string);
+	string getWriting();
 };
 
 

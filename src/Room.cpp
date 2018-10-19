@@ -53,3 +53,11 @@ Container* Room::delContainer(string name){
 Creature* Room::delCreature (string name){
     return NULL;
 }
+
+void Room::setType(string type){
+    this->type = type;
+}
+bool Room::isExit(){
+    cout << type << endl;
+    return type=="exit"?true:false;
+}

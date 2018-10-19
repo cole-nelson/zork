@@ -46,7 +46,7 @@ Item* Player::delItem(string name){
 void Player::readItem(string name){
     auto it = searchInventory(name);
     if(it != inventory.end()){
-        it->getWriting();  
+        cout << it->getWriting() << endl;  
     }
 }
 

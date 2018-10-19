@@ -16,3 +16,10 @@ Item::Item(std::string na, std::string st, std::string des, std::string wr) :
 
 Item::~Item() {}
 
+void Item::setWriting(string writing){
+    this->writing = writing;
+}
+
+string Item::getWriting(){
+    return writing;
+}

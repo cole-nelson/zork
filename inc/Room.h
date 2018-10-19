@@ -39,6 +39,8 @@ public:
     Item*       delItem     (string);
     Container*  delContainer(string);
     Creature*   delCreature (string);
+    void setType(string);
+    bool isExit();
 };
 
 #endif /* INC_GAMEOBJECT_H_ */

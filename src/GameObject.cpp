@@ -1,5 +1,9 @@
 #include "../inc/GameObject.h"
 
+GameObject::GameObject():
+    name("nameless"),stat("off"),desp("No description")
+{}
+
 GameObject::GameObject(const GameObject& orig):
     name(orig.name),stat(orig.stat),desp(orig.desp)
 {}

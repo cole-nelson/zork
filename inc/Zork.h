@@ -18,7 +18,7 @@ class Zork {
 private:
 	bool gameOver;
 	unordered_map<string, GameObject*> originalObjs;    // reserved
-    unordered_map<string, Room*> Rooms;                      // all Room objects
+    unordered_map<string, Room*> Rooms;                 // all Room objects
     vector<GameObject*> gameObjs;                       // all game objects
     Room* entrance;
     Player player;

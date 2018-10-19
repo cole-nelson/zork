@@ -2,6 +2,8 @@
 #include <iostream>
 #include "../inc/Container.h"
 
+Container::Container():GameObject(){stat = "closed";}
+
 Container::Container(string na, string st, string des):
     GameObject(na, st, des)
 {}

@@ -30,7 +30,11 @@ vector<string> _SplitString(const string& s, const string& c){
 
 Zork::Zork() : gameOver(false) {}
 
-Zork::~Zork() {}
+Zork::~Zork() {
+	for(auto obj:originalObjs) delete obj.second;
+    for(auto room:Rooms)       delete room.second;
+    for(auto obj:gameObjs)     delete obj;  
+}
 
 void Zork::constructGame(const char *fname) {
 
@@ -62,18 +66,21 @@ void Zork::constructGame(const char *fname) {
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
-                if(attr->name() == (string)"name") {
-                    name = attr->value();
-                } else if(attr->name() == (string)"status") {
-                    stat = attr->value();
-                } else if(attr->name() == (string)"description") {
-                    description = attr->value();
-                } else if(attr->name() == (string)"writing") {
-                    writing = attr->value();
-                } else if(attr->name() == (string)"turn on") {
+                string attrName(attr->name());
+                string attrValue(attr->value());
+                Item* new_Item = new Item();
+                if(attrName == "name") {
+                    new_Item->setName(attrValue);
+                } else if(attrName == "status") {
+                    new_Item->setStatus(attrValue);
+                } else if(attrName == "description") {
+                    new_Item->setDescription(attrValue);
+                } else if(attrName == "writing") {
+                    new_Item->setWriting(attrValue);
+                } else if(attrName == "turn on") {
                     // do something
                 }
-                originalObjs[name] = new Item(name,stat,description,writing); 
+                originalObjs[name] = new_Item; 
             }
         }
         root = root->next_sibling();
@@ -84,20 +91,24 @@ void Zork::constructGame(const char *fname) {
     while(root != NULL) {
 
         string name="", stat="", description="", writing="", type="";
-        unordered_set<string>* accept = new unordered_set<string>;
+        //unordered_set<string>* accept = new unordered_set<string>;
         if(root->name() == (string)"container"){
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
-                if(attr->name() == (string)"name") {
-                    name = attr->value();
-                } else if(attr->name() == (string)"status") {
+
+                string attrName(attr->name());
+                string attrValue(attr->value());
+                Container* new_container = new Container();
+                if(attrName == "name") {
+                    new_container->setName(attrValue);
+                } else if(attrName == "status") {
                     stat = attr->value();
-                } else if(attr->name() == (string)"description") {
+                } else if(attrName == "description") {
                     description = attr->value();
-                } else if(attr->name() == (string) "accept") {
-                    accept->insert(attr->value());
-                } else if(attr->name() == (string)"trigger") {
+                } else if(attrName ==  "accept") {
+                    //accept->insert(attr->value());
+                } else if(attrName == "trigger") {
                     // do something
                 }
                 //spwan a new container
@@ -152,6 +163,8 @@ void Zork::constructGame(const char *fname) {
                     if(attrValue == "Entrance") entrance = new_room;
                 } else if(attrName == "status") {
                     new_room->setStatus(attrValue);
+                } else if(attrName == "type") {
+                    new_room->setType(attrValue);
                 } else if(attrName == "description") {
                     new_room->setDescription(attrValue);
                 } else if(attrName == "trigger") {
@@ -177,13 +190,13 @@ void Zork::constructGame(const char *fname) {
 }
 
 void Zork::playGame() {
-    std::cout << "Welcome to Zork" << std::endl;
+    cout << "Welcome to Zork" << endl << endl;
     // initialization
     Room* loc_now = entrance;
     cout << loc_now->getDescription() << endl;
     while(true){
         if(gameOver) break;
-        string cmd, target, target_container;
+        string cmd, target1, target2;
         cout << '>';
         getline(cin, cmd);
         
@@ -191,16 +204,17 @@ void Zork::playGame() {
         if(cmd_ls.size() == 2){// take <item> | drop <itemp> | 
                                // read <item> | turn on
             cmd = cmd_ls[0];
-            target = cmd_ls[1];
+            target1 = cmd_ls[1];
         }
 
         if(cmd_ls.size() == 4) // put <item> in <container>
         {
             cmd = cmd_ls[0];
-            target = cmd_ls[1];
-            target_container = cmd_ls[3];
+            target1 = cmd_ls[1];
+            target2 = cmd_ls[3];
         }
         
+        //checkTtrigger();
         if(cmd == "n"){
             loc_now = player.move(NORTH, loc_now, Rooms);
         }
@@ -217,20 +231,22 @@ void Zork::playGame() {
             player.openInventory();
         }
         else if(cmd == "take"){
-            Item* targetItem = loc_now->delItem(target);
+            Item* targetItem = loc_now->delItem(target1);
 
             if(!targetItem) continue;
             player.addItem(*targetItem);
             delete targetItem;
         }
         else if(cmd == "open"){
+            if(target1 == "exit"){
+                if(loc_now->isExit())break;
+            }
         }
         else if(cmd == "read"){
-            
-
+            player.readItem(target1);  
         }
         else if(cmd == "drop"){
-            Item* targetItem = player.delItem(target);
+            Item* targetItem = player.delItem(target1);
 
             if(!targetItem) continue;
             loc_now->addItem(*targetItem);
@@ -238,12 +254,14 @@ void Zork::playGame() {
         }
         else if(cmd == "put" && cmd_ls[3] == "in"){
         }
-        else if(cmd == "turn" && target == "on"){
+        else if(cmd == "turn" && target1 == "on"){
         }
-        else if(cmd == "attack"){
+        else if(cmd == "attack" && cmd_ls[3] == "with"){
         }
         else{
             cout << "error" << endl;
         }
     }
+
+    cout << "Victory!" << endl;
 }
