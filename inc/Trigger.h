@@ -16,15 +16,15 @@ public:
 	Trigger();
 	Trigger(const Trigger& );
 	virtual ~Trigger();
-	virtual void gettype(string);
-	virtual void getprint(string);
-	virtual void getcommand(string);
-	virtual void getowner(string);
-	virtual void getstatus(string);
-	string gettype();
-	string getprint();
-	string getcommand();
-	string getowner();
-	string getstatus();
+	virtual void setType(string);
+	virtual void getPrint(string);
+	virtual void getCommand(string);
+	virtual void getOwner(string);
+	virtual void getStatus(string);
+	string setType();
+	string getPrint();
+	string getCommand();
+	string getOwner();
+	string getStatus();
 };
 #endif

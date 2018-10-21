@@ -6,14 +6,14 @@ Trigger::Trigger(const Trigger& trig) :
 
 Trigger::~Trigger(){}
 
-void Trigger::gettype(string type){this->type = type;}
-void Trigger::getprint(string print){this->print = print;}
-void Trigger::getcommand(string command){this->command = command;}
-void Trigger::getowner(string owner){this->owner = owner;}
-void Trigger::getstatus(string sta){this->sta = sta;}
+void Trigger::setType(string type){this->type = type;}
+void Trigger::getPrint(string print){this->print = print;}
+void Trigger::getCommand(string command){this->command = command;}
+void Trigger::getOwner(string owner){this->owner = owner;}
+void Trigger::getStatus(string sta){this->sta = sta;}
 
-string Trigger::gettype() {return type;}
-string Trigger::getprint() {return print;}
-string Trigger::getcommand() {return command;}
-string Trigger::getowner() {return owner;}
-string Trigger::getstatus() {return sta;}
+string Trigger::setType() {return type;}
+string Trigger::getPrint() {return print;}
+string Trigger::getCommand() {return command;}
+string Trigger::getOwner() {return owner;}
+string Trigger::getStatus() {return sta;}
