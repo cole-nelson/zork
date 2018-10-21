@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 
+#include "../inc/Trigger.h"
 #include "../inc/rapidxml.hpp"
 #include "../inc/GameObject.h"
 #include "../inc/Zork.h"
@@ -11,6 +12,7 @@
 #include "../inc/Container.h"
 #include "../inc/Creature.h"
 #include "../inc/Item.h"
+
 
 vector<string> _SplitString(const string& s, const string& c){
 
@@ -28,7 +30,9 @@ vector<string> _SplitString(const string& s, const string& c){
     return v;
 }
 
-Zork::Zork() : gameOver(false) {}
+Zork::Zork(char *fname) : gameOver(false) {
+	constructGame(fname);
+}
 
 Zork::~Zork() {
 	for(auto obj:originalObjs) delete obj.second;
@@ -41,7 +45,7 @@ void Zork::constructGame(const char *fname) {
     // Open XML file
     std::ifstream fp = std::ifstream(fname);
     if(!fp) {
-        throw "File could not be opened";
+        throw "File could not be opened.";
     }
 
     std::stringstream ss;
@@ -110,7 +114,7 @@ void Zork::constructGame(const char *fname) {
                     // do something
                 }
             }
-            //spwan a new container
+            //spawn a new container
             originalObjs[new_container->getName()] = new_container;
         }
         root = root->next_sibling();
@@ -185,7 +189,6 @@ void Zork::constructGame(const char *fname) {
         }
         root = root->next_sibling();
     }
-
 }
 
 void Zork::playGame() {
