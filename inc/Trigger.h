@@ -17,11 +17,11 @@ public:
 	Trigger(const Trigger& );
 	virtual ~Trigger();
 	virtual void setType(string);
-	virtual void getPrint(string);
-	virtual void getCommand(string);
-	virtual void getOwner(string);
-	virtual void getStatus(string);
-	string setType();
+	virtual void setPrint(string);
+	virtual void setCommand(string);
+	virtual void setOwner(string);
+	virtual void setStatus(string);
+	string getType();
 	string getPrint();
 	string getCommand();
 	string getOwner();
