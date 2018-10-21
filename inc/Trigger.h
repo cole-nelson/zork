@@ -2,6 +2,7 @@
 #define TRIGGER_H_
 #include <string>
 #include <vector>
+#include "GameObject.h"
 
 using namespace std;
 class Trigger{
@@ -10,8 +11,8 @@ private:
 	string print;
 	vector <string> action;
 	string command;
-	string owner;
-	string sta;
+	GameObject* owner;
+	string stat;
 public:
 	Trigger();
 	Trigger(const Trigger& );
@@ -19,12 +20,12 @@ public:
 	virtual void setType(string);
 	virtual void setPrint(string);
 	virtual void setCommand(string);
-	virtual void setOwner(string);
+	virtual void setOwner(GameObject*);
 	virtual void setStatus(string);
 	string getType();
 	string getPrint();
 	string getCommand();
-	string getOwner();
+	GameObject* getOwner();
 	string getStatus();
 };
 #endif
