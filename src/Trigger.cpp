@@ -22,7 +22,19 @@ void Trigger::fire(string input_cmd){
 
     if(cmd != "" && cmd != input_cmd) return; // nothing to do with this trigger
 
-    
+}
 
+HasConditation::HasConditation(){}
+HasConditation::~HasConditation(){}
 
+bool HasConditation::checkConditation(){
+    return target->searchCollection(hasName,containerName) == has;
+}
+
+StatConditation::StatConditation(){}
+StatConditation::~StatConditation(){}
+
+bool StatConditation::checkConditation(){
+    if(target->getStatus() == stat) return true;
+    return false;
 }

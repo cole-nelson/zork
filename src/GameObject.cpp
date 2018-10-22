@@ -22,3 +22,14 @@ void GameObject::setDescription(string desp){ this->desp = desp;}
 string GameObject::getName() {return name;}
 string GameObject::getStatus() {return stat;} 
 string GameObject::getDescription() {return desp;}
+
+
+bool GameObject::searchCollection(string target, string containerName){
+    
+    if(collection.find(containerName) == collection.end()) return false;
+    for(auto item: collection[containerName]){
+        if(item->name == target) return true;
+    }
+
+    return false;
+}

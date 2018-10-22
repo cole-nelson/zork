@@ -7,7 +7,7 @@
 using namespace std;
 
 class Conditation{
-private:
+protected:
     GameObject* target;
 public:
     Conditation();
@@ -19,7 +19,10 @@ class HasConditation : public Conditation{
 private:
     bool has;
     string hasName;
+    string containerName;
 public:
+    HasConditation();
+    virtual ~HasConditation();
     bool checkConditation();
 };
 
@@ -27,9 +30,10 @@ class StatConditation : public Conditation{
 private:
     string stat;
 public:
+    StatConditation();
+    virtual ~StatConditation();
     bool checkConditation();
 };
-
 
 class Trigger{
 private:
@@ -43,7 +47,7 @@ private:
 	string stat;
 public:
 	Trigger();
-	Trigger(const Trigger& );
+	Trigger(const Trigger&);
 	virtual ~Trigger();
 
 	virtual void setType(string);

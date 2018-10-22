@@ -9,23 +9,18 @@
 #define INC_GAMEOBJECT_H_
 
 #include <string>
-using namespace std;
+#include <unordered_map>
+#include <vector>
 
-enum Args{
-    NAME,
-    STATUS,
-    TYPE,
-    DESCRIPTION,
-    WRITING,
-    TURN_ON,
-    ATTACK
-};
+using namespace std;
 
 class GameObject {
 protected:
     string name;
     string stat;
     string desp;
+    unordered_map<string, vector<GameObject*>> collection;
+
 public:
 	GameObject();
     GameObject(const GameObject&);
@@ -39,6 +34,8 @@ public:
     virtual string getName();
 	virtual string getStatus(); 
 	virtual string getDescription();
+
+    virtual bool searchCollection(string, string);
 };
 
 
