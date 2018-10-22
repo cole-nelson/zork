@@ -37,7 +37,8 @@ Zork::Zork(char *fname) : gameOver(false) {
 Zork::~Zork() {
 	for(auto obj:originalObjs) delete obj.second;
     for(auto room:Rooms)       delete room.second;
-    for(auto obj:gameObjs)     delete obj;  
+    for(auto obj:gameObjs)     delete obj;
+    for(auto tri:triggerPool)  delete tri;
 }
 
 void Zork::constructGame(const char *fname) {
@@ -111,7 +112,24 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName ==  "accept") {
                     new_container->addAccept(attrValue);
                 } else if(attrName == "trigger") {
-                    // do something
+                    // check nested elements
+                	Trigger *t = new Trigger();
+                	string tName, tValue;
+                	for(rapidxml::xml_node<> *trigAttr = attr->first_node();
+                			trigAttr != NULL; trigAttr = trigAttr->next_sibling()) {
+                		tName = trigAttr->name();
+                		tValue = trigAttr->value();
+                		if(tName == (string)"condition") {
+
+                		} else if(tName == (string)"print") {
+
+                		} else if(tName == (string)"action") {
+
+                		} else if(tName == (string)"type") {
+
+                		}
+                		triggerPool.push_back(t);
+                	}
                 }
             }
             //spawn a new container
