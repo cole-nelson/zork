@@ -20,10 +20,11 @@ private:
 	unordered_map<string, GameObject*> originalObjs;    // reserved
     unordered_map<string, Room*> Rooms;                 // all Room objects
     vector<GameObject*> gameObjs;                       // all game objects
+    vector<Trigger*> triggerPool;						// all triggers
     Room* entrance;
     Player player;
 public:
-	Zork();
+	Zork(char *fname);
 	virtual ~Zork();
 	void constructGame(const char *fname);
 	void playGame();
