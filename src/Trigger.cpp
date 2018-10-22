@@ -24,16 +24,17 @@ void Trigger::fire(string input_cmd){
 
 }
 
+Conditation::Conditation(){}
+Conditation::~Conditation(){}
+
 HasConditation::HasConditation(){}
 HasConditation::~HasConditation(){}
-
 bool HasConditation::checkConditation(){
     return target->searchCollection(hasName,containerName) == has;
 }
 
 StatConditation::StatConditation(){}
 StatConditation::~StatConditation(){}
-
 bool StatConditation::checkConditation(){
     if(target->getStatus() == stat) return true;
     return false;
