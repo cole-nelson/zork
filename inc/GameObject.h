@@ -35,7 +35,8 @@ public:
 	virtual string getStatus(); 
 	virtual string getDescription();
 
-    virtual bool searchCollection(string, string);
+    virtual bool searchCollection(string, const string&);
+    virtual void addToCollection(GameObject*, const string&);
 };
 
 

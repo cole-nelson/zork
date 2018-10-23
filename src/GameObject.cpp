@@ -24,7 +24,7 @@ string GameObject::getStatus() {return stat;}
 string GameObject::getDescription() {return desp;}
 
 
-bool GameObject::searchCollection(string target, string containerName){
+bool GameObject::searchCollection(string target, const string& containerName){
     
     if(collection.find(containerName) == collection.end()) return false;
     for(auto item: collection[containerName]){
@@ -32,4 +32,11 @@ bool GameObject::searchCollection(string target, string containerName){
     }
 
     return false;
+}
+
+void GameObject::addToCollection(GameObject* item, const string& containerName){
+    
+    if(collection.find(containerName) == collection.end()) return;
+    collection[containerName].push_back(item);
+    
 }
