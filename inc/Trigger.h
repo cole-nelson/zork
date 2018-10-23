@@ -6,33 +6,33 @@
 
 using namespace std;
 
-class Conditation{
+class Condition{
 protected:
     GameObject* target;
 public:
-    Conditation();
-    virtual ~Conditation();
-    virtual bool checkConditation()=0;
+    Condition();
+    virtual ~Condition();
+    virtual bool checkCondition()=0;
 };
 
-class HasConditation : public Conditation{
+class HasCondition : public Condition{
 private:
     bool has;
     string hasName;
     string containerName;
 public:
-    HasConditation();
-    virtual ~HasConditation();
-    bool checkConditation();
+    HasCondition();
+    virtual ~HasCondition();
+    bool checkCondition();
 };
 
-class StatConditation : public Conditation{
+class StatCondition : public Condition{
 private:
     string stat;
 public:
-    StatConditation();
-    virtual ~StatConditation();
-    bool checkConditation();
+    StatCondition();
+    virtual ~StatCondition();
+    bool checkCondition();
 };
 
 class Trigger{
@@ -43,7 +43,7 @@ private:
 	vector <string> action;
 	GameObject* owner;
 	string stat;
-    Conditation* cond;
+    Condition* cond;
 public:
     Trigger(GameObject*);
 	Trigger(const Trigger&);

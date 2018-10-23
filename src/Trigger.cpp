@@ -29,7 +29,7 @@ string Trigger::getStatus() {return stat;}
 
 bool Trigger::checkCond(){
 
-    return cond?cond->checkConditation():false;
+    return cond?cond->checkCondition():false;
 }
 
 void Trigger::fire(string input_cmd){
@@ -41,18 +41,18 @@ void Trigger::fire(string input_cmd){
 
 }
 
-Conditation::Conditation(){}
-Conditation::~Conditation(){}
+Condition::Condition(){}
+Condition::~Condition(){}
 
-HasConditation::HasConditation(){}
-HasConditation::~HasConditation(){}
-bool HasConditation::checkConditation(){
+HasCondition::HasCondition(){}
+HasCondition::~HasCondition(){}
+bool HasCondition::checkCondition(){
     return target->searchCollection(hasName,containerName) == has;
 }
 
-StatConditation::StatConditation(){}
-StatConditation::~StatConditation(){}
-bool StatConditation::checkConditation(){
+StatCondition::StatCondition(){}
+StatCondition::~StatCondition(){}
+bool StatCondition::checkCondition(){
     if(target->getStatus() == stat) return true;
     return false;
 }
