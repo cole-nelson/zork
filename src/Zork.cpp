@@ -97,7 +97,7 @@ void Zork::constructGame(const char *fname) {
                     new_container->addAccept(attrValue);
                 } else if(attrName == "trigger") {
                     // check nested elements
-                	Trigger *t = new Trigger();
+                	Trigger *t = new Trigger(new_container);
                 	string tName, tValue;
                 	for(rapidxml::xml_node<> *trigAttr = attr->first_node();
                 			trigAttr != NULL; trigAttr = trigAttr->next_sibling()) {

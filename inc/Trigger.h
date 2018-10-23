@@ -41,12 +41,11 @@ private:
 	string type;
 	string print;
 	vector <string> action;
-	string command;
 	GameObject* owner;
-    Conditation* cond;
 	string stat;
+    Conditation* cond;
 public:
-	Trigger();
+    Trigger(GameObject*);
 	Trigger(const Trigger&);
 	virtual ~Trigger();
 
