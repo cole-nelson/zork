@@ -9,6 +9,7 @@
 #define INC_ZORK_H_
 
 #include "Player.h"
+#include "Trigger.h"
 #include <unordered_map>
 #include <unordered_set>
 

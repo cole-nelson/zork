@@ -1,3 +1,4 @@
+#include "../inc/util.h"
 #include "../inc/Trigger.h"
 
 Trigger::Trigger() : cmd(""), type("permanent"), print(""),command(""),owner(NULL),stat("") {}
@@ -18,9 +19,16 @@ string Trigger::getCommand() {return command;}
 GameObject* Trigger::getOwner() {return owner;}
 string Trigger::getStatus() {return stat;}
 
+bool Trigger::checkCond(){
+    return cond->checkConditation();
+}
+
 void Trigger::fire(string input_cmd){
 
     if(cmd != "" && cmd != input_cmd) return; // nothing to do with this trigger
+
+    // action
+    vector<string> cmd_ls = SplitString(input_cmd," ");
 
 }
 
@@ -39,3 +47,4 @@ bool StatConditation::checkConditation(){
     if(target->getStatus() == stat) return true;
     return false;
 }
+

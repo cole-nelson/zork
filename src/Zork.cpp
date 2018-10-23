@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 
+#include "../inc/util.h"
 #include "../inc/Trigger.h"
 #include "../inc/rapidxml.hpp"
 #include "../inc/GameObject.h"
@@ -12,23 +13,6 @@
 #include "../inc/Container.h"
 #include "../inc/Creature.h"
 #include "../inc/Item.h"
-
-
-vector<string> _SplitString(const string& s, const string& c){
-
-    vector<string> v;
-    string::size_type pos1, pos2;
-    pos2 = s.find(c);
-    pos1 = 0;
-    while(string::npos != pos2){
-        v.push_back(s.substr(pos1, pos2-pos1));
-        pos1 = pos2 + c.size();
-        pos2 = s.find(c, pos1);
-    }
-    if(pos1 != s.length()) v.push_back(s.substr(pos1));
-
-    return v;
-}
 
 Zork::Zork(char *fname) : gameOver(false) {
 	constructGame(fname);
@@ -220,7 +204,14 @@ void Zork::playGame() {
         cout << '>';
         getline(cin, cmd);
         
-        vector<string> cmd_ls = _SplitString(cmd, " ");
+        // checkTtrigger();
+        for(auto triggerPtr : triggerPool){
+           if(triggerPtr->checkCond()){
+               triggerPtr->fire(cmd);
+           }
+        }
+        
+        vector<string> cmd_ls = SplitString(cmd, " ");
         if(cmd_ls.size() == 2){// take <item> | drop <itemp> | 
                                // read <item> | turn on
             cmd = cmd_ls[0];
@@ -234,7 +225,6 @@ void Zork::playGame() {
             target2 = cmd_ls[3];
         }
         
-        //checkTtrigger();
         if(cmd == "n"){
             loc_now = player.move(NORTH, loc_now, Rooms);
         }

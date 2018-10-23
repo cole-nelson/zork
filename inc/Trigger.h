@@ -62,6 +62,7 @@ public:
 	GameObject* getOwner();
 	string getStatus();
 
+    bool checkCond();
     void fire(string);
 };
 
