@@ -20,6 +20,7 @@ void Trigger::setPrint(string print){this->print = print;}
 void Trigger::setCommand(string cmd){this->cmd = cmd;}
 void Trigger::setOwner(GameObject* owner){this->owner = owner;} // same for this
 void Trigger::setStatus(string stat){this->stat = stat;}
+void Trigger::setCondition(Condition *c){this->cond = c;}
 
 string Trigger::getType() {return type;}
 string Trigger::getPrint() {return print;}
@@ -41,16 +42,18 @@ void Trigger::fire(string input_cmd){
 
 }
 
-Condition::Condition(){}
+Condition::Condition(GameObject *t) : target(t){}
 Condition::~Condition(){}
 
-HasCondition::HasCondition(){}
+HasCondition::HasCondition(GameObject *target, bool hs, std::string name, std::string container) :
+	Condition(target), has(hs), hasName(name), containerName(container) {}
 HasCondition::~HasCondition(){}
 bool HasCondition::checkCondition(){
     return target->searchCollection(hasName,containerName) == has;
 }
 
-StatCondition::StatCondition(){}
+StatCondition::StatCondition(GameObject *target, std::string status) :
+	Condition(target), stat(status){}
 StatCondition::~StatCondition(){}
 bool StatCondition::checkCondition(){
     if(target->getStatus() == stat) return true;

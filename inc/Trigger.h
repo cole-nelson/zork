@@ -10,7 +10,7 @@ class Condition{
 protected:
     GameObject* target;
 public:
-    Condition();
+    Condition(GameObject *t);
     virtual ~Condition();
     virtual bool checkCondition()=0;
 };
@@ -21,7 +21,7 @@ private:
     string hasName;
     string containerName;
 public:
-    HasCondition();
+    HasCondition(GameObject *target, bool hs, string name, string container);
     virtual ~HasCondition();
     bool checkCondition();
 };
@@ -30,7 +30,7 @@ class StatCondition : public Condition{
 private:
     string stat;
 public:
-    StatCondition();
+    StatCondition(GameObject *target, string status);
     virtual ~StatCondition();
     bool checkCondition();
 };
@@ -54,6 +54,7 @@ public:
 	virtual void setCommand(string);
 	virtual void setOwner(GameObject*);
 	virtual void setStatus(string);
+	virtual void setCondition(Condition *c);
 
     string getType();
 	string getPrint();

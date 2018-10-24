@@ -25,6 +25,49 @@ Zork::~Zork() {
     for(auto tri:triggerPool)  delete tri;
 }
 
+Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context) {
+	/**************************************************
+	 * Search file for triggers, construct separately
+	 * due to different handling
+	 ***************************************************/
+	Trigger *t = new Trigger(context);
+	std::string has = "", owner, status, object;
+	for(rapidxml::xml_node<> *tAttr = trig_node->first_node();
+			tAttr != NULL; tAttr = tAttr->next_sibling()) {
+
+		if(tAttr->name() == (std::string)"type") {
+			t->setType(tAttr->value());
+		} else if(tAttr->name() == (std::string)"command") {
+			t->setCommand(tAttr->value());
+		} else if(tAttr->name() == (std::string)"print") {
+			t->setPrint(tAttr->value());
+		} else if(tAttr->name() == (std::string)"condition") {
+			for(rapidxml::xml_node<> *cAttr = tAttr->first_node();
+					cAttr != NULL; cAttr = cAttr->next_sibling()) {
+				if(cAttr->name() == (std::string)"has") {
+					has = cAttr->value();
+				} else if(cAttr->name() == (std::string)"owner") {
+					owner = cAttr->value();
+				} else if(cAttr->name() == (std::string)"object") {
+					object = cAttr->value();
+				} else if(cAttr->name() == (std::string)"status") {
+					status = cAttr->value();
+				}
+			} // ********************END FOR**************************
+
+			if(has == (std::string)"") {
+				// object-status condition
+				t->setCondition(new StatCondition(context, status));
+			} else {
+				t->setCondition(new HasCondition(context, has == (std::string)"yes", object, owner));
+			}
+
+		}//****************END CONDITION CONSTRUCTION*****************
+	}
+
+	return t;
+}
+
 void Zork::constructGame(const char *fname) {
 
     // Open XML file
@@ -49,7 +92,6 @@ void Zork::constructGame(const char *fname) {
     // spawn all base items
     root = doc.first_node()->first_node();
     while(root != NULL) {
-
         if(root->name() == (string)"item"){
             Item* new_Item = new Item();
             for(rapidxml::xml_node<> *attr = root->first_node(); 
@@ -96,24 +138,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName ==  "accept") {
                     new_container->addAccept(attrValue);
                 } else if(attrName == "trigger") {
-                    // check nested elements
-                	Trigger *t = new Trigger(new_container);
-                	string tName, tValue;
-                	for(rapidxml::xml_node<> *trigAttr = attr->first_node();
-                			trigAttr != NULL; trigAttr = trigAttr->next_sibling()) {
-                		tName = trigAttr->name();
-                		tValue = trigAttr->value();
-                		if(tName == (string)"condition") {
-
-                		} else if(tName == (string)"print") {
-
-                		} else if(tName == (string)"action") {
-
-                		} else if(tName == (string)"type") {
-
-                		}
-                		triggerPool.push_back(t);
-                	}
+                	//triggerPool.push_back(constructTrigger(attr, new_container));
                 }
             }
             //spawn a new container
@@ -144,7 +169,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName ==  "attack") {
                     // do something
                 } else if(attrName == "trigger") {
-                    // do something
+                    //triggerPool.push_back(constructTrigger(attr, new_creature));
                 }
             }
             //spwan a new creature
@@ -173,7 +198,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName == "description") {
                     new_room->setDescription(attrValue);
                 } else if(attrName == "trigger") {
-                    // do something
+                    //triggerPool.push_back(constructTrigger(attr, new_room));
                 } else if(attrName == "border"){
                     string dir, dir_name = "NULL";
                     for(rapidxml::xml_node<> *node = attr->first_node();
@@ -191,6 +216,7 @@ void Zork::constructGame(const char *fname) {
         }
         root = root->next_sibling();
     }
+
 }
 
 void Zork::playGame() {
