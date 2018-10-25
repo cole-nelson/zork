@@ -224,8 +224,7 @@ void Zork::playGame() {
     // initialization
     Room* loc_now = entrance;
     cout << loc_now->getDescription() << endl;
-    while(true){
-        if(gameOver) break;
+    while(!gameOver){
         string cmd, target1, target2;
         cout << '>';
         getline(cin, cmd);
@@ -270,12 +269,14 @@ void Zork::playGame() {
             Item* targetItem = loc_now->delItem(target1);
 
             if(!targetItem) continue;
-            player.addItem(*targetItem);
-            delete targetItem;
+            player.addItem(targetItem);
+            //delete targetItem;
         }
         else if(cmd == "open"){
             if(target1 == "exit"){
-                if(loc_now->isExit())break;
+                if(loc_now->isExit()) {
+                	gameOver = true;
+                }
             }
         }
         else if(cmd == "read"){
