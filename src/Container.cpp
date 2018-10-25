@@ -9,6 +9,7 @@ Container::Container():GameObject(){
 
 Container::Container(const Container& orig):
     GameObject(orig),
+    items(orig.items),
     accept(orig.accept)
 {}
 

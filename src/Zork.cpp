@@ -56,19 +56,54 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
 				}
 			} // ********************END FOR**************************
             
-            if(owner == "inventory"){
-                context = &player;
-            }
+            
+            GameObject* targetObj = NULL;
 			if(has == (std::string)"") {
-				// object-status condition
-				t->setCondition(new StatCondition(context, stat));
+                // object-status condition
+                cout << "staConditation Trigger " << context-> getName() << endl;
+                if(object == context->getName()) targetObj = context;
+                else targetObj = context->searchCollection(object);
+				t->setCondition(new StatCondition(targetObj, stat));
 			} else {
-				t->setCondition(new HasCondition(context, has == (std::string)"yes", object, owner));
-			}
+                if(owner == "inventory"){
+                    targetObj = &player;
+                }
+                else{
+                    cout << "search " << owner << " in " << context->getName() << endl;
+                    if(owner == context->getName()) targetObj = context;
+                    else targetObj = context->searchCollection(owner);
+                }
+                assert(targetObj);
+                t->setCondition(new HasCondition(context, has == "yes", object, targetObj));
+            }
 
 		}//****************END CONDITION CONSTRUCTION*****************
 	}
 	return t;
+}
+
+void Zork::linkTriggers(rapidxml::xml_node<>* root){
+    while(root != NULL) {
+        string name;
+        for(rapidxml::xml_node<> *attr = root->first_node(); 
+                attr != NULL; attr = attr->next_sibling()) {
+            
+            string attrName(attr->name());
+            string attrValue(attr->value());
+            cout << "name " << attrName << " value " << attrValue << endl;
+            if(attrName == "name") {
+                name = attrValue;
+            }
+            else if(attrName == "trigger") {
+                GameObject* obj = originalObjs[name]; 
+                cout << "new_trigger " << name << endl;
+                assert(obj);
+                constructTrigger(attr, obj);
+            }
+
+        }
+        root = root->next_sibling();
+    }
 }
 
 void Zork::constructGame(const char *fname) {
@@ -112,9 +147,10 @@ void Zork::constructGame(const char *fname) {
                     new_Item->setWriting(attrValue);
                 } else if(attrName == "turn on") {
                     // do something
-                }
+                } 
             }
             originalObjs[new_Item->getName()] = new_Item; 
+            cout << "new item! " << new_Item -> getName() << endl;
         }
         root = root->next_sibling();
     }
@@ -140,11 +176,10 @@ void Zork::constructGame(const char *fname) {
                     new_container->setDescription(attrValue);
                 } else if(attrName ==  "accept") {
                     new_container->addAccept(attrValue);
-                } else if(attrName == "trigger") {
-                	constructTrigger(attr, new_container);
                 }
             }
             //spawn a new container
+            cout << "new container! " << new_container -> getName() << endl;
             originalObjs[new_container->getName()] = new_container;
         }
         root = root->next_sibling();
@@ -171,11 +206,10 @@ void Zork::constructGame(const char *fname) {
                     new_creature->addVulnerability(attrValue);
                 } else if(attrName ==  "attack") {
                     // do something
-                } else if(attrName == "trigger") {
-                    constructTrigger(attr, new_creature);
-                }
+                } 
             }
             //spwan a new creature
+            cout << "new creature! " << new_creature -> getName() << endl;
             originalObjs[new_creature->getName()] = new_creature;
         }
         root = root->next_sibling();
@@ -196,12 +230,10 @@ void Zork::constructGame(const char *fname) {
                     if(attrValue == "Entrance") entrance = new_room;
                 } else if(attrName == "status") {
                     new_room->setStatus(attrValue);
-                } else if(attrName == "type") {
-                    new_room->setType(attrValue);
                 } else if(attrName == "description") {
                     new_room->setDescription(attrValue);
-                } else if(attrName == "trigger") {
-                    constructTrigger(attr, new_room);
+                } else if(attrName == "type") {
+                    new_room->setType(attrValue);
                 } else if(attrName == "border"){
                     string dir, dir_name = "NULL";
                     for(rapidxml::xml_node<> *node = attr->first_node();
@@ -213,13 +245,18 @@ void Zork::constructGame(const char *fname) {
                     }
                     new_room->setNeighbor(dir,dir_name);
                 } else if(attrName == "item") {
-                    new_room->addItem(dynamic_cast<Item*>(originalObjs[attrValue]));
+                    new_room->addItem(static_cast<Item*>(originalObjs[attrValue]));
+                } else if(attrName == "container") {
+                    new_room->addContainer(static_cast<Container*>(originalObjs[attrValue])); 
+                } else if(attrName == "creature"){
+                    //new_room->addContainer(static_cast<Container*>(originalObjs[attrValue])); 
                 }
             }
+            originalObjs[new_room->getName()] = new_room;
         }
         root = root->next_sibling();
     }
-
+    linkTriggers(doc.first_node()->first_node());
 }
 
 void Zork::playGame() {

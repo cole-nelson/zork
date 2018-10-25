@@ -26,11 +26,14 @@ private:
     vector<Trigger*> triggerPool;						// all triggers
     Room* entrance;
     Player player;
+
+    void linkTriggers(rapidxml::xml_node<>*);
+	Trigger* constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context);
+
 public:
 	Zork(char *fname);
 	virtual ~Zork();
 	void constructGame(const char *fname);
-	Trigger* constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context);
 	void playGame();
 };
 

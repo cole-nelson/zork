@@ -3,11 +3,11 @@
 
 Trigger::Trigger(): 
     cmd(""), type("single"), print(""),
-    owner(""),stat(""), cond(NULL) {}
+    stat(""), cond(NULL) {}
 
 Trigger::Trigger(const Trigger& trig) :
     cmd(trig.cmd), type(trig.type), print(trig.type),
-    owner(trig.owner),stat(trig.stat), cond(trig.cond) {}
+    stat(trig.stat), cond(trig.cond) {}
 
 Trigger::~Trigger(){
     if(cond) delete cond;
@@ -39,20 +39,20 @@ void Trigger::fire(){
     // take action
 }
 
-Condition::Condition(GameObject *t) : target(t){}
+Condition::Condition(){}
 Condition::~Condition(){}
 
-HasCondition::HasCondition(GameObject *target, bool hs, std::string name, std::string owner):
-	Condition(target), has(hs), hasName(name), owner(owner) {}
+HasCondition::HasCondition(GameObject *target, bool hs, std::string name, GameObject* owner):
+    has(hs), hasName(name), owner(owner) {}
 
 HasCondition::~HasCondition(){}
 
 bool HasCondition::checkCondition(){
-    return target->searchCollection(hasName,owner) == has;
+    return (owner->searchCollection(hasName) != NULL) == has;
 }
 
 StatCondition::StatCondition(GameObject *target, std::string stat) :
-	Condition(target), stat(stat){}
+	target(target), stat(stat){}
 
 StatCondition::~StatCondition(){}
 

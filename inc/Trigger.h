@@ -9,10 +9,8 @@
 using namespace std;
 
 class Condition{
-protected:
-    GameObject* target;
 public:
-    Condition(GameObject *t);
+    Condition();
     virtual ~Condition();
     virtual bool checkCondition()=0;
 };
@@ -21,15 +19,16 @@ class HasCondition : public Condition{
 private:
     bool has;
     string hasName;
-    string owner;
+    GameObject* owner;
 public:
-    HasCondition(GameObject*, bool, string, string);
+    HasCondition(GameObject*, bool, string, GameObject*);
     virtual ~HasCondition();
     bool checkCondition();
 };
 
 class StatCondition : public Condition{
 private:
+    GameObject* target;
     string stat;
 public:
     StatCondition(GameObject*, string);
@@ -43,10 +42,9 @@ private:
 	string type;
 	string print;
 	vector <string> action;
-    string owner;
 	string stat;
-    Condition* cond;
 public:
+    Condition* cond;
     Trigger();
 	Trigger(const Trigger&);
 	virtual ~Trigger();

@@ -39,7 +39,7 @@ public:
 	virtual string getStatus(); 
 	virtual string getDescription();
 
-    virtual bool searchCollection(string, const string&);
+    virtual GameObject* searchCollection(const string&);
     virtual void addToCollection(GameObject*, const string&); // this is probably redundent
 
     virtual void addTriggers(Trigger*);

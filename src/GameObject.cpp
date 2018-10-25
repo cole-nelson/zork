@@ -5,7 +5,8 @@ GameObject::GameObject():
 {}
 
 GameObject::GameObject(const GameObject& orig):
-    name(orig.name),stat(orig.stat),desp(orig.desp),triggers(orig.triggers)
+    name(orig.name),stat(orig.stat),desp(orig.desp),
+    collection(orig.collection), triggers(orig.triggers)
 {}
 
 GameObject::GameObject(string name, string stat, string desp):
@@ -24,14 +25,15 @@ string GameObject::getStatus() {return stat;}
 string GameObject::getDescription() {return desp;}
 
 
-bool GameObject::searchCollection(string target, const string& containerName){
+GameObject* GameObject::searchCollection(const string& target){
     
-    if(collection.find(containerName) == collection.end()) return false;
-    for(auto item: *collection[containerName]){
-        if(item->name == target) return true;
+    for(auto collect: collection){
+        for(auto item: *collect.second){
+            if(item->getName() == target) return item;
+        }
     }
 
-    return false;
+    return NULL;
 }
 
 void GameObject::addToCollection(GameObject* item, const string& containerName){
