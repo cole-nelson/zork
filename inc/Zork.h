@@ -28,7 +28,7 @@ public:
 	Zork(char *fname);
 	virtual ~Zork();
 	void constructGame(const char *fname);
-	Trigger * constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context);
+	Trigger* constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context);
 	void playGame();
 };
 

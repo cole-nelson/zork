@@ -22,22 +22,22 @@ string Room::getNeighbor(Direction dir){
     else                    return west;
 }
 
-void Room::addItem(Item *item){
+void Room::addItem(Item item){
     inventory.push_back(item);
 }
 
-void Room::addContainer(Container *container){
+void Room::addContainer(Container container){
     containers.push_back(container);
 }
 
-void Room::addCreature(Creature *creature){
+void Room::addCreature(Creature creature){
     creatures.push_back(creature); 
 }
 
 Item* Room::delItem(string name){
     for(auto it = inventory.begin(); it != inventory.end(); it++){
-        if((*it)->getName() == name){
-            Item* ret = new Item((**it));
+        if(it->getName() == name){
+            Item* ret = new Item(*it);
             inventory.erase(it);
             return ret; 
         }

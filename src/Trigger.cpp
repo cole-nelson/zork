@@ -28,17 +28,17 @@ string Trigger::getCommand() {return cmd;}
 GameObject* Trigger::getOwner() {return owner;}
 string Trigger::getStatus() {return stat;}
 
-bool Trigger::checkCond(){
-
+bool Trigger::checkCond(string input_cmd){
+    if(cmd != "" && cmd != input_cmd) return false; // nothing to do with this trigger
     return cond?cond->checkCondition():false;
 }
 
-void Trigger::fire(string input_cmd){
-
-    if(cmd != "" && cmd != input_cmd) return; // nothing to do with this trigger
-
+void Trigger::fire(){
     // action
-    vector<string> cmd_ls = SplitString(input_cmd," ");
+
+    if(print != ""){
+        cout << print << endl;
+    }
 
 }
 
@@ -52,8 +52,8 @@ bool HasCondition::checkCondition(){
     return target->searchCollection(hasName,containerName) == has;
 }
 
-StatCondition::StatCondition(GameObject *target, std::string status) :
-	Condition(target), stat(status){}
+StatCondition::StatCondition(GameObject *target, std::string stat) :
+	Condition(target), stat(stat){}
 StatCondition::~StatCondition(){}
 bool StatCondition::checkCondition(){
     if(target->getStatus() == stat) return true;

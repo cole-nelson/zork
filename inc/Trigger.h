@@ -2,6 +2,7 @@
 #define TRIGGER_H_
 #include <string>
 #include <vector>
+#include <iostream>
 #include "GameObject.h"
 
 using namespace std;
@@ -54,7 +55,7 @@ public:
 	virtual void setCommand(string);
 	virtual void setOwner(GameObject*);
 	virtual void setStatus(string);
-	virtual void setCondition(Condition *c);
+	virtual void setCondition(Condition*);
 
     string getType();
 	string getPrint();
@@ -62,8 +63,8 @@ public:
 	GameObject* getOwner();
 	string getStatus();
 
-    bool checkCond();
-    void fire(string);
+    bool checkCond(string);
+    void fire();
 };
 
 #endif

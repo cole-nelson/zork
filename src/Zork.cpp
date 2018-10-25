@@ -138,7 +138,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName ==  "accept") {
                     new_container->addAccept(attrValue);
                 } else if(attrName == "trigger") {
-                	//triggerPool.push_back(constructTrigger(attr, new_container));
+                	triggerPool.push_back(constructTrigger(attr, new_container));
                 }
             }
             //spawn a new container
@@ -169,7 +169,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName ==  "attack") {
                     // do something
                 } else if(attrName == "trigger") {
-                    //triggerPool.push_back(constructTrigger(attr, new_creature));
+                    triggerPool.push_back(constructTrigger(attr, new_creature));
                 }
             }
             //spwan a new creature
@@ -198,7 +198,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName == "description") {
                     new_room->setDescription(attrValue);
                 } else if(attrName == "trigger") {
-                    //triggerPool.push_back(constructTrigger(attr, new_room));
+                    triggerPool.push_back(constructTrigger(attr, new_room));
                 } else if(attrName == "border"){
                     string dir, dir_name = "NULL";
                     for(rapidxml::xml_node<> *node = attr->first_node();
@@ -210,7 +210,7 @@ void Zork::constructGame(const char *fname) {
                     }
                     new_room->setNeighbor(dir,dir_name);
                 } else if(attrName == "item") {
-                    new_room->addItem(dynamic_cast<Item*>(originalObjs[attrValue]));
+                    new_room->addItem(*dynamic_cast<Item*>(originalObjs[attrValue]));
                 }
             }
         }
@@ -230,12 +230,17 @@ void Zork::playGame() {
         getline(cin, cmd);
         
         // checkTtrigger();
-        for(auto triggerPtr : triggerPool){
-           if(triggerPtr->checkCond()){
-               triggerPtr->fire(cmd);
+        bool flag = false; // check if any trigger fires
+        for(auto triggerPtr: triggerPool){
+           if(triggerPtr->checkCond(cmd)){
+               triggerPtr->fire();
+               cout << "Trigger!!!" << endl;
+               flag = true;
+               break;
            }
         }
-        
+        if(flag) continue;
+
         vector<string> cmd_ls = SplitString(cmd, " ");
         if(cmd_ls.size() == 2){// take <item> | drop <itemp> | 
                                // read <item> | turn on
@@ -267,10 +272,9 @@ void Zork::playGame() {
         }
         else if(cmd == "take"){
             Item* targetItem = loc_now->delItem(target1);
-
             if(!targetItem) continue;
-            player.addItem(targetItem);
-            //delete targetItem;
+            player.addItem(*targetItem);
+            delete targetItem;
         }
         else if(cmd == "open"){
             if(target1 == "exit"){
@@ -286,7 +290,7 @@ void Zork::playGame() {
             Item* targetItem = player.delItem(target1);
 
             if(!targetItem) continue;
-            loc_now->addItem(targetItem);
+            loc_now->addItem(*targetItem);
             delete targetItem;
         }
         else if(cmd == "put" && cmd_ls[3] == "in"){
