@@ -210,7 +210,7 @@ void Zork::constructGame(const char *fname) {
                     }
                     new_room->setNeighbor(dir,dir_name);
                 } else if(attrName == "item") {
-                    new_room->addItem(*dynamic_cast<Item*>(originalObjs[attrValue]));
+                    new_room->addItem(dynamic_cast<Item*>(originalObjs[attrValue]));
                 }
             }
         }
@@ -285,7 +285,7 @@ void Zork::playGame() {
             Item* targetItem = player.delItem(target1);
 
             if(!targetItem) continue;
-            loc_now->addItem(*targetItem);
+            loc_now->addItem(targetItem);
             delete targetItem;
         }
         else if(cmd == "put" && cmd_ls[3] == "in"){
