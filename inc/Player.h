@@ -11,17 +11,18 @@
 
 using namespace std;
 
-class Player{
-    vector<Item> inventory;
-    vector<Item>::iterator searchInventory(string);
+class Player: public GameObject{
+    vector<GameObject*> inventory;
+    vector<GameObject*>::iterator searchInventory(string);
 public:
     Player();
     virtual ~Player();
 
     Room* move(Direction, Room*, unordered_map<string, Room*>&);
-    void addItem(Item);
+    void addItem(Item*);
     Item* delItem(string);
     void readItem(string);
     void openInventory();
 };
+
 #endif

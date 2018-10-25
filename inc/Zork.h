@@ -10,6 +10,8 @@
 
 #include "Player.h"
 #include "Trigger.h"
+#include "rapidxml.hpp"
+
 #include <unordered_map>
 #include <unordered_set>
 

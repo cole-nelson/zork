@@ -10,7 +10,10 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
+#include "Common.h"
+#include "Trigger.h"
 
 using namespace std;
 
@@ -19,7 +22,8 @@ protected:
     string name;
     string stat;
     string desp;
-    unordered_map<string, vector<GameObject*>> collection;
+    unordered_map<string, vector<GameObject*>*> collection;
+    unordered_set<Trigger*> triggers;
 
 public:
 	GameObject();
@@ -36,7 +40,10 @@ public:
 	virtual string getDescription();
 
     virtual bool searchCollection(string, const string&);
-    virtual void addToCollection(GameObject*, const string&);
+    virtual void addToCollection(GameObject*, const string&); // this is probably redundent
+
+    virtual void addTriggers(Trigger*);
+    virtual bool checkAllTriggers(string);
 };
 
 

@@ -3,12 +3,13 @@
 #include <vector>
 #include <unordered_set>
 #include "GameObject.h"
+#include "Item.h"
 
 using namespace std;
 
-class Container : public GameObject {
+class Container: public GameObject {
 private:
-	vector<string> item;
+	vector<GameObject*> items;
     unordered_set<string> accept;
 public:
     Container();
@@ -17,5 +18,6 @@ public:
 	virtual ~Container();
 
     void addAccept(string);
+    void addItem(Item*);
 };
 #endif

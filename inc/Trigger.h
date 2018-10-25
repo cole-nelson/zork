@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "Common.h"
 #include "GameObject.h"
 
 using namespace std;
@@ -20,9 +21,9 @@ class HasCondition : public Condition{
 private:
     bool has;
     string hasName;
-    string containerName;
+    string owner;
 public:
-    HasCondition(GameObject *target, bool hs, string name, string container);
+    HasCondition(GameObject*, bool, string, string);
     virtual ~HasCondition();
     bool checkCondition();
 };
@@ -31,7 +32,7 @@ class StatCondition : public Condition{
 private:
     string stat;
 public:
-    StatCondition(GameObject *target, string status);
+    StatCondition(GameObject*, string);
     virtual ~StatCondition();
     bool checkCondition();
 };
@@ -42,28 +43,26 @@ private:
 	string type;
 	string print;
 	vector <string> action;
-	GameObject* owner;
+    string owner;
 	string stat;
     Condition* cond;
 public:
-    Trigger(GameObject*);
+    Trigger();
 	Trigger(const Trigger&);
 	virtual ~Trigger();
 
 	virtual void setType(string);
 	virtual void setPrint(string);
 	virtual void setCommand(string);
-	virtual void setOwner(GameObject*);
 	virtual void setStatus(string);
 	virtual void setCondition(Condition*);
 
     string getType();
 	string getPrint();
 	string getCommand();
-	GameObject* getOwner();
 	string getStatus();
 
-    bool checkCond(string);
+    bool checkCondition(string);
     void fire();
 };
 

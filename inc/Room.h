@@ -25,17 +25,17 @@ private:
     string south;
     string east;
     string west;
-    vector<Item> inventory;         // vector is fine for now...
-    vector<Container> containers;   // probably change these three to multi set...
-    vector<Creature> creatures;     // since might sotre same object multiple times
+    vector<GameObject*> items;          // vector is fine for now...
+    vector<GameObject*> containers;     // probably change these three to multi set...
+    vector<GameObject*> creatures;      // since might sotre same object multiple times
 public:
     Room();
 	virtual ~Room();
     void setNeighbor(string, string);
     string getNeighbor(Direction);
-    void addItem(Item);
-    void addContainer(Container);
-    void addCreature(Creature);
+    void addItem(Item*);
+    void addContainer(Container*);
+    void addCreature(Creature*);
     Item*       delItem     (string);
     Container*  delContainer(string);
     Creature*   delCreature (string);

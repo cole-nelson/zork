@@ -2,7 +2,10 @@
 #include <iostream>
 #include "../inc/Container.h"
 
-Container::Container():GameObject(){stat = "closed";}
+Container::Container():GameObject(){
+    collection["items"] = &items;
+    stat = "closed";
+}
 
 Container::Container(const Container& orig):
     GameObject(orig),
@@ -17,4 +20,9 @@ Container::~Container() {}
 
 void Container::addAccept(string name){
     accept.insert(name);
+}
+
+void Container::addItem(Item* obj){
+    Item* newItem = new Item(*obj);
+    items.push_back(newItem);
 }

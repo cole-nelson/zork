@@ -4,8 +4,14 @@
 
 Room::Room():
     type("regular"),
-    north("NULL"),south("NULL"),east("NULL"),west("NULL"){}
+    north("NULL"),south("NULL"),east("NULL"),west("NULL")
+{
+    collection["items"] = &items;
+    collection["containers"] = &containers;
+    collection["creatures"] = &creatures;
+}
 
+// TODO: write proper descructor
 Room::~Room(){}
 
 void Room::setNeighbor(string dir, string roomName){
@@ -22,23 +28,26 @@ string Room::getNeighbor(Direction dir){
     else                    return west;
 }
 
-void Room::addItem(Item item){
-    inventory.push_back(item);
+void Room::addItem(Item* item){
+    Item* newItem = new Item(*item);
+    items.push_back(newItem);
 }
 
-void Room::addContainer(Container container){
-    containers.push_back(container);
+void Room::addContainer(Container* container){
+    Container* newContainer = new Container(*container);
+    containers.push_back(newContainer);
 }
 
-void Room::addCreature(Creature creature){
-    creatures.push_back(creature); 
+void Room::addCreature(Creature* creature){
+    Creature* newCreature = new Creature(*creature);
+    creatures.push_back(newCreature); 
 }
 
 Item* Room::delItem(string name){
-    for(auto it = inventory.begin(); it != inventory.end(); it++){
-        if(it->getName() == name){
-            Item* ret = new Item(*it);
-            inventory.erase(it);
+    for(auto it = items.begin(); it != items.end(); it++){
+        if((*it)->getName() == name){
+            Item* ret = new Item(*static_cast<Item*>(*it));
+            items.erase(it);
             return ret; 
         }
     }
@@ -46,6 +55,7 @@ Item* Room::delItem(string name){
     return NULL;
 }
 
+// TODO: implement those
 Container* Room::delContainer(string name){
     return NULL;
 }
