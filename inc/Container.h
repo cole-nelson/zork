@@ -11,7 +11,7 @@ class Container: public GameObject {
 private:
 	vector<GameObject*> items;
     unordered_set<string> accept;
-    bool isOpen;
+    bool open_stat;
 public:
     Container();
     Container(const Container& orig);
@@ -19,6 +19,9 @@ public:
 
     void addAccept(string);
     void addItem(Item*);
+    Item* delItem(string);
+    bool isOpen(){return open_stat;}
+
     void open();
 };
 #endif

@@ -33,13 +33,14 @@ public:
 	virtual ~Room();
     void setNeighbor(string, string);
     string getNeighbor(Direction);
+    void setType(string);
+
     void addItem(Item*);
     void addContainer(Container*);
     void addCreature(Creature*);
     Item*       delItem     (string);
     Container*  delContainer(string);
     Creature*   delCreature (string);
-    void setType(string);
     bool isExit();
 };
 

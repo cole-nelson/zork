@@ -3,13 +3,13 @@
 #include "../inc/Container.h"
 
 Container::Container():
-    GameObject(), isOpen(false){
+    GameObject(), open_stat(false){
     collection[ITEM] = &items;
 }
 
 Container::Container(const Container& orig):
     GameObject(orig),
-    items(orig.items), accept(orig.accept), isOpen(orig.isOpen)
+    items(orig.items), accept(orig.accept), open_stat(orig.open_stat)
 {}
 
 Container::~Container() {}
@@ -23,7 +23,21 @@ void Container::addItem(Item* obj){
     items.push_back(newItem);
 }
 
+Item* Container::delItem(string name){
+    if(!open_stat) return NULL;
+    auto it = items.begin();
+    for(;it != items.end();it++){
+        if((*it)->getName() == name) break; 
+    }
+    if(it == items.end()) return NULL;
+    
+    Item* newItem = new Item(*static_cast<Item*>(*it));
+    items.erase(it);
+    return newItem;
+}
+
 void Container::open(){
+    open_stat = true;
     if(!items.size()){
         cout << name << " is empty" << endl;
     }
@@ -31,7 +45,6 @@ void Container::open(){
         for(auto item:items){
             cout << item->getName() << " ";
         }
-        cout << endl;
-
-    }
+        cout << endl; 
+    } 
 }

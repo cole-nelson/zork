@@ -176,6 +176,9 @@ void Zork::constructGame(const char *fname) {
                     new_container->setDescription(attrValue);
                 } else if(attrName ==  "accept") {
                     new_container->addAccept(attrValue);
+                } else if(attrName == "item"){
+                    assert(originalObjs[attrValue]);
+                    new_container->addItem(static_cast<Item*>(originalObjs[attrValue]));
                 }
             }
             //spawn a new container
@@ -314,6 +317,13 @@ void Zork::playGame() {
                 }
             }
             else{
+                Container* cont = static_cast<Container*>(loc_now->searchCollection(target1, CONTAINER));
+                if(!cont){
+                    cout << "container " << target1 << " does not exist" << endl;
+                }
+                else{
+                    cont->open();
+                }
             }
         }
         else if(cmd == "read"){

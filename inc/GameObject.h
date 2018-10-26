@@ -47,7 +47,13 @@ public:
 
     virtual GameObject* searchCollection(const string&);
     virtual GameObject* searchCollection(const string&, ObjectType);
-    virtual void addToCollection(GameObject*, ObjectType); // this is probably redundent
+
+    // This two probably could serve a purpose that generalize delete and
+    // add action to some GameObject
+    // TODO: decide and probably implement those...
+    // probably no work...
+    virtual void addToCollection(GameObject*, ObjectType); 
+    //virtual GameObject* deleteFromCollection(GameObject*, ObjectType);
 
     virtual void addTriggers(Trigger*);
     virtual bool checkAllTriggers(string);

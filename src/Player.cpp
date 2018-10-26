@@ -55,6 +55,21 @@ void Player::readItem(string name){
     }
 }
 
+void Player::takeItem(string name, Room* context){
+    Item* targetItem = static_cast<Item*>(context->searchCollection(name, ITEM));
+    
+    if(!targetItem){
+        // search through all open containers within the context
+    }
+
+    if(!targetItem){
+        cout << name << " does not exist..." << endl;
+    }
+    else{
+
+    }
+}
+
 void Player::openInventory(){
     for(auto item:inventory){
         cout << static_cast<Item*>(item)->getName() << " ";

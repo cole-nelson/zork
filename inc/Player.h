@@ -22,6 +22,8 @@ public:
     void addItem(Item*);
     Item* delItem(string);
     void readItem(string);
+    void takeItem(string, Room*);
+    void dropItem(string, Room*);
     void openInventory();
 };
 

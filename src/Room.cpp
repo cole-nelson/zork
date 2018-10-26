@@ -51,7 +51,13 @@ Item* Room::delItem(string name){
             return ret; 
         }
     }
-    cout << "item does not exist" << endl;
+
+    for(auto it = containers.begin(); it != containers.end(); it++){
+        Item* ret = static_cast<Container*>(*it) -> delItem(name);
+        if(ret) return ret;
+    }
+
+    cout << name << " does not exist" << endl;
     return NULL;
 }
 
@@ -63,6 +69,7 @@ Container* Room::delContainer(string name){
 Creature* Room::delCreature (string name){
     return NULL;
 }
+
 
 void Room::setType(string type){
     this->type = type;
