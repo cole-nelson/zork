@@ -2,7 +2,7 @@
 
 Player::Player():
     GameObject(){
-    collection["inventory"] = &inventory;
+    collection[INVENTORY] = &inventory;
 }
 
 Player::~Player(){}

@@ -17,18 +17,24 @@
 
 using namespace std;
 
+enum ObjectType{
+    ITEM,
+    CONTAINER,
+    CREATURE,
+    INVENTORY
+};
+
 class GameObject {
 protected:
     string name;
     string stat;
     string desp;
-    unordered_map<string, vector<GameObject*>*> collection;
+    unordered_map<ObjectType, vector<GameObject*>*> collection;
     unordered_set<Trigger*> triggers;
 
 public:
 	GameObject();
     GameObject(const GameObject&);
-	GameObject(string, string, string); // dont really need
 	virtual ~GameObject();              
 
     virtual void setName(string);             // these are better
@@ -40,7 +46,8 @@ public:
 	virtual string getDescription();
 
     virtual GameObject* searchCollection(const string&);
-    virtual void addToCollection(GameObject*, const string&); // this is probably redundent
+    virtual GameObject* searchCollection(const string&, ObjectType);
+    virtual void addToCollection(GameObject*, ObjectType); // this is probably redundent
 
     virtual void addTriggers(Trigger*);
     virtual bool checkAllTriggers(string);

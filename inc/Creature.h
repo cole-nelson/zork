@@ -12,7 +12,6 @@ private:
 public:
     Creature();
     Creature(const Creature&);
-	Creature(string na, string sts, string des);
 	virtual ~Creature();
 
     void addVulnerability(string);

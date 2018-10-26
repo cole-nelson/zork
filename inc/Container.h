@@ -11,13 +11,14 @@ class Container: public GameObject {
 private:
 	vector<GameObject*> items;
     unordered_set<string> accept;
+    bool isOpen;
 public:
     Container();
     Container(const Container& orig);
-	Container(string na, string sts, string des);
 	virtual ~Container();
 
     void addAccept(string);
     void addItem(Item*);
+    void open();
 };
 #endif

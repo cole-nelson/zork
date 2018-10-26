@@ -2,19 +2,14 @@
 #include <iostream>
 #include "../inc/Container.h"
 
-Container::Container():GameObject(){
-    collection["items"] = &items;
-    stat = "closed";
+Container::Container():
+    GameObject(), isOpen(false){
+    collection[ITEM] = &items;
 }
 
 Container::Container(const Container& orig):
     GameObject(orig),
-    items(orig.items),
-    accept(orig.accept)
-{}
-
-Container::Container(string na, string st, string des):
-    GameObject(na, st, des)
+    items(orig.items), accept(orig.accept), isOpen(orig.isOpen)
 {}
 
 Container::~Container() {}
@@ -26,4 +21,17 @@ void Container::addAccept(string name){
 void Container::addItem(Item* obj){
     Item* newItem = new Item(*obj);
     items.push_back(newItem);
+}
+
+void Container::open(){
+    if(!items.size()){
+        cout << name << " is empty" << endl;
+    }
+    else{
+        for(auto item:items){
+            cout << item->getName() << " ";
+        }
+        cout << endl;
+
+    }
 }

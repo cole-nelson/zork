@@ -9,12 +9,6 @@ GameObject::GameObject(const GameObject& orig):
     collection(orig.collection), triggers(orig.triggers)
 {}
 
-GameObject::GameObject(string name, string stat, string desp):
-    name(name),stat(stat),desp(desp)
-{
-    //not really need to do anything here
-}
-
 GameObject::~GameObject() {}
 
 void GameObject::setName(string name){ this->name = name;}
@@ -36,14 +30,25 @@ GameObject* GameObject::searchCollection(const string& target){
     return NULL;
 }
 
-void GameObject::addToCollection(GameObject* item, const string& containerName){
+GameObject* GameObject::searchCollection(const string& target, ObjectType type){
+     
+    for(auto collect: collection){
+        for(auto item: *collect.second){
+            if(item->getName() == target) return item;
+        }
+    }
+
+    return NULL;
+}
+
+void GameObject::addToCollection(GameObject* item, ObjectType type){
     
-    if(collection.find(containerName) == collection.end()){
-        cout << "no such collection " << containerName << endl;
+    if(collection.find(type) == collection.end()){
+        cout << "no such collection in " << item->getName() << endl;
         return;
     }
     // make a copy and push back
-    collection[containerName]->push_back(item);
+    collection[type]->push_back(item);
 
 }
 

@@ -6,9 +6,9 @@ Room::Room():
     type("regular"),
     north("NULL"),south("NULL"),east("NULL"),west("NULL")
 {
-    collection["items"] = &items;
-    collection["containers"] = &containers;
-    collection["creatures"] = &creatures;
+    collection[ITEM] = &items;
+    collection[CONTAINER] = &containers;
+    collection[CREATURE] = &creatures;
 }
 
 // TODO: write proper descructor

@@ -313,6 +313,8 @@ void Zork::playGame() {
                 	gameOver = true;
                 }
             }
+            else{
+            }
         }
         else if(cmd == "read"){
             player.readItem(target1);  

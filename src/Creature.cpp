@@ -10,10 +10,6 @@ Creature::Creature(const Creature& orig):
     vulnerabilities(orig.vulnerabilities)
 {}
 
-Creature::Creature(string na, string st, string des):
-    GameObject(na, st, des)
-{}
-
 Creature::~Creature() {}
 
 void Creature::addVulnerability(string vulner){

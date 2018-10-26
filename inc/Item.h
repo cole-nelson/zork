@@ -17,7 +17,6 @@ private:
 public:
     Item();
     Item(const Item&);
-	Item(string na, string st, string des, string wr);
 	virtual ~Item();
 
     void setWriting(string);
