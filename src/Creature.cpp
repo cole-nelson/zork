@@ -3,12 +3,12 @@
 #include "../inc/Creature.h"
 
 Creature::Creature():
-    GameObject(){}
+    GameObject(),attackTrigger(NULL){}
 
 Creature::Creature(const Creature& orig):
     GameObject(orig),
     vulnerabilities(orig.vulnerabilities),
-    attackActions(orig.attackActions)
+    attackTrigger(orig.attackTrigger)
 {}
 
 
@@ -18,8 +18,8 @@ void Creature::addVulnerability(string vulner){
     vulnerabilities.insert(vulner);
 }
 
-void Creature::AddAction(Action* attackPtr){
-	attackActions.push_back(attackPtr);
+void Creature::setAttackTrigger(Trigger* attackTrigger){
+    this -> attackTrigger = attackTrigger;
 }
 
 void Creature::attack(string name){
@@ -27,8 +27,7 @@ void Creature::attack(string name){
         cout << "not really effective..." << endl;
     }
     else{
-        for(auto actionPtr: attackActions){
-            actionPtr -> exec();
-        }
+        if(attackTrigger->checkCondition("")) attackTrigger->fire();
+        else cout << "not really effective..." << endl;
     }
 }
