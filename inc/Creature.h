@@ -10,14 +10,14 @@ using namespace std;
 class Creature : public GameObject {
 private:
 	unordered_set<string> vulnerabilities;
-    vector<Action*> attackActions;
+    Trigger* attackTrigger;
 public:
     Creature();
     Creature(const Creature&);
 	virtual ~Creature();
 
     void addVulnerability(string);
-    void AddAction(Action*);
+    void setAttackTrigger(Trigger*);
     void attack(string);
 };
 #endif

@@ -10,6 +10,7 @@ public:
     Action(GameObject* target): target(target){};
     Action(const Action& orig): target(orig.target){};
     virtual ~Action(){};
+    virtual void setTarget(GameObject* target){this->target = target;};
     virtual void exec()=0;
 };
 
