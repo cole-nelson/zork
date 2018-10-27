@@ -8,6 +8,7 @@ protected:
     GameObject* target;
 public:
     Action(GameObject* target): target(target){};
+    Action(const Action& orig): target(orig.target){};
     virtual ~Action(){};
     virtual void exec()=0;
 };
