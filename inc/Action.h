@@ -17,6 +17,7 @@ class UpdateAction: public Action{
     string stat;
 public:
     UpdateAction(GameObject*, string);
+    UpdateAction(const UpdateAction&);
     virtual ~UpdateAction();
     virtual void exec();
 };
@@ -25,6 +26,7 @@ class AddAction: public Action{
     GameObject* origItem;
 public:
     AddAction(GameObject*, GameObject*);
+    AddAction(const AddAction&);
     virtual ~AddAction();
     virtual void exec();
 };
@@ -33,6 +35,7 @@ class DelAction: public Action{
     string nameToDelete;
 public:
     DelAction(GameObject*, string);
+    DelAction(const DelAction&);
     virtual ~DelAction();
     virtual void exec();
 };
