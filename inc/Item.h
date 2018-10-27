@@ -15,7 +15,7 @@ using namespace std;
 class Item : public GameObject {
 private:
 	string writing;
-    vector<Action*> turnOnAct;
+    Trigger *turnOnTrigger;
 public:
     Item();
     Item(const Item&);

@@ -10,6 +10,7 @@ UpdateAction::~UpdateAction(){}
 
 void UpdateAction::exec(){
     target->setStatus(stat);
+    cout << printedText << endl;
 }
 
 

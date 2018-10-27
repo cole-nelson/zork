@@ -36,6 +36,13 @@ public:
     bool checkCondition();
 };
 
+class TrueCondition : public Condition {
+public:
+	TrueCondition() {};
+	virtual ~TrueCondition() {};
+	bool checkCondition() {return true;}
+};
+
 class Trigger{
 private:
     string cmd;

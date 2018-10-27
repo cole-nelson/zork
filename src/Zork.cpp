@@ -107,6 +107,11 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
     }
 }
 
+void Zork::turnOnSetup(rapidxml::xml_node<> *aRoot, Item *context) {
+	Trigger *t = constructTrigger(aRoot, context);
+	t->setCondition(new TrueCondition());
+}
+
 void Zork::constructGame(const char *fname) {
 
     // Open XML file
@@ -146,12 +151,8 @@ void Zork::constructGame(const char *fname) {
                     new_Item->setDescription(attrValue);
                 } else if(attrName == "writing") {
                     new_Item->setWriting(attrValue);
-                } else if(attrName == "turn on") {
-                    // do something
-                	vector<string> act = SplitString(attrValue, " ");
-                	if(act.at(0) == "Update") {
-                		new_Item->addAction(new UpdateAction(new_Item, act.at(3)));
-                	}
+                } else if(attrName == "turnon") {
+                    turnOnSetup(attr->first_node(), new_Item);
                 } 
             }
             originalObjs[new_Item->getName()] = new_Item; 
@@ -257,7 +258,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName == "container") {
                     new_room->addContainer(static_cast<Container*>(originalObjs[attrValue])); 
                 } else if(attrName == "creature"){
-                    //new_room->addContainer(static_cast<Container*>(originalObjs[attrValue])); 
+                    //new_room->addContainer(static_cast<Container*>(originalObjs[attrValue]));
                 }
             }
             originalObjs[new_room->getName()] = new_room;
@@ -285,6 +286,12 @@ void Zork::playGame() {
                                // read <item> | turn on
             cmd = cmd_ls[0];
             target1 = cmd_ls[1];
+        }
+
+        if(cmd_ls.size() == 3) {
+        	cmd = cmd_ls[0];
+        	target1 = cmd_ls[1];
+        	target2 = cmd_ls[2];
         }
 
         if(cmd_ls.size() == 4) // put <item> in <container>
