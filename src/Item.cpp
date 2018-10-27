@@ -4,13 +4,17 @@
 
 Item::Item():
     GameObject(),
-    writing("Nothing written"), turnOnAct(NULL){}
+    writing("Nothing written"), turnOnAct(){}
 
 Item::Item(const Item& orig):
     GameObject(orig),
     writing(orig.writing), turnOnAct(orig.turnOnAct){}
 
 Item::~Item() {}
+
+void Item::addAction(Action *a) {
+	//turnOnAct.push_back(a);
+}
 
 void Item::setWriting(string writing){
     this->writing = writing;
@@ -21,6 +25,9 @@ string Item::getWriting(){
 }
 
 void Item::turnOn(){
-    if(turnOnAct) turnOnAct->exec();
-    else cout << "cannot turn on " << getName() << endl;
+	if(turnOnAct.size() != 0) {
+		for(auto act : turnOnAct) {
+			act->exec();
+		}
+	} else cout << "cannot turn on " << getName() << endl;
 }

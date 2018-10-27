@@ -15,14 +15,14 @@ using namespace std;
 class Item : public GameObject {
 private:
 	string writing;
-    Action* turnOnAct;
+    vector<Action*> turnOnAct;
 public:
     Item();
     Item(const Item&);
 	virtual ~Item();
 
     void setWriting(string);
-    void setAction(Action*);
+    void addAction(Action*);
 	string getWriting();
     
     void turnOn();

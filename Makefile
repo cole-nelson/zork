@@ -9,7 +9,7 @@ all: zork
 zork: $(OBJ) $(INC)
 	$(CXX) $(CXXFLAGS) $(OBJ) -o zork
 
-obj/%.o: src/%.cpp
+obj/%.o: src/%.cpp inc/%.h
 	@mkdir -p obj
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 

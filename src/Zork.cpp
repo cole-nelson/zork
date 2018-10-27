@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <string>
 
 #include "../inc/util.h"
 #include "../inc/Trigger.h"
@@ -147,6 +148,10 @@ void Zork::constructGame(const char *fname) {
                     new_Item->setWriting(attrValue);
                 } else if(attrName == "turn on") {
                     // do something
+                	vector<string> act = SplitString(attrValue, " ");
+                	if(act.at(0) == "Update") {
+                		new_Item->addAction(new UpdateAction(new_Item, act.at(3)));
+                	}
                 } 
             }
             originalObjs[new_Item->getName()] = new_Item; 
@@ -339,6 +344,10 @@ void Zork::playGame() {
         else if(cmd == "put" && cmd_ls[3] == "in"){
         }
         else if(cmd == "turn" && target1 == "on"){
+        	Item *ret = static_cast<Item*>(player.searchCollection(target2, INVENTORY));
+        	if(ret != NULL) {
+        		ret->turnOn();
+        	}
         }
         else if(cmd == "attack" && cmd_ls[3] == "with"){
         }
