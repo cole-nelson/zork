@@ -3,8 +3,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "Common.h"
 #include "GameObject.h"
+#include "Action.h"
+#include "Common.h"
 
 using namespace std;
 
@@ -41,7 +42,7 @@ private:
     string cmd;
 	string type;
 	string print;
-	vector <string> action;
+	vector <Action*> actions;
 	string stat;
 public:
     Condition* cond;

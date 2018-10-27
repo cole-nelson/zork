@@ -7,7 +7,7 @@ Trigger::Trigger():
 
 Trigger::Trigger(const Trigger& trig) :
     cmd(trig.cmd), type(trig.type), print(trig.type),
-    stat(trig.stat), cond(trig.cond) {}
+    actions(trig.actions), stat(trig.stat), cond(trig.cond) {}
 
 Trigger::~Trigger(){
     if(cond) delete cond;
