@@ -20,6 +20,7 @@ void Trigger::setPrint(string print){this->print = print;}
 void Trigger::setCommand(string cmd){this->cmd = cmd;}
 void Trigger::setStatus(string stat){this->stat = stat;}
 void Trigger::setCondition(Condition *c){this->cond = c;}
+void Trigger::addAction(Action* act){actions.push_back(act);}
 
 string Trigger::getType() {return type;}
 string Trigger::getPrint() {return print;}
@@ -36,7 +37,11 @@ void Trigger::fire(){
     if(print != ""){
         cout << print << endl;
     }
+
     // take action
+    for(auto actionPtr:actions){
+        actionPtr->exec();
+    }
 }
 
 Condition::Condition(){}

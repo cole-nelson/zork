@@ -62,6 +62,7 @@ public:
 	virtual void setCommand(string);
 	virtual void setStatus(string);
 	virtual void setCondition(Condition*);
+    virtual void addAction(Action*);
 
     string getType();
 	string getPrint();
