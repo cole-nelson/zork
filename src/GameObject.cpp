@@ -52,6 +52,20 @@ void GameObject::addToCollection(GameObject* item, ObjectType type){
 
 }
 
+void GameObject::deleteFromCollection(string item, ObjectType type){
+
+    if(collection.find(type) == collection.end()){
+        cout << "no such collection in " << item << endl;
+        return;
+    }
+
+    auto it = collection[type]->begin();
+    for(;it != collection[type]->end(); it++){
+        if((*it)->getName() == item){
+            it = collection[type]->erase(it);
+        }
+    }
+}
 void GameObject::addTriggers(Trigger* trig){
     triggers.insert(trig);
 }

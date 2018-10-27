@@ -15,5 +15,6 @@ public:
 	virtual ~Creature();
 
     void addVulnerability(string);
+    void attack(string);
 };
 #endif

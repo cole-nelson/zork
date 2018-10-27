@@ -16,11 +16,17 @@ vector<string> SplitString(const string& s, const string& c){
     return v;
 }
 
+/*
 void Update(GameObject* obj, const string stat){
     obj->setStatus(stat);
 }
 
-void Add(GameObject* obj, GameObject* item, const string collectionName){
+void Add(GameObject* obj, GameObject* item, ObjectType collectionName){
+    obj->addToCollection(item,collectionName);
 }
 
+void Del(GameObject* obj, string item, ObjectType collectionName){
+    obj->deleteFromCollection(item,collectionName);
+}
 
+*/

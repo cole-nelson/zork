@@ -9,20 +9,24 @@
 #define INC_ITEM_H_
 
 #include "GameObject.h"
+#include "Action.h"
 
 using namespace std;
 class Item : public GameObject {
 private:
 	string writing;
+    Action* turnOnAct;
 public:
     Item();
     Item(const Item&);
 	virtual ~Item();
 
     void setWriting(string);
+    void setAction(Action*);
 	string getWriting();
+    
+    void turnOn();
 };
-
 
 
 #endif /* INC_ITEM_H_ */

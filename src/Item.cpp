@@ -4,11 +4,11 @@
 
 Item::Item():
     GameObject(),
-    writing("Nothing written"){}
+    writing("Nothing written"), turnOnAct(NULL){}
 
 Item::Item(const Item& orig):
     GameObject(orig),
-    writing(orig.writing){}
+    writing(orig.writing), turnOnAct(orig.turnOnAct){}
 
 Item::~Item() {}
 
@@ -18,4 +18,9 @@ void Item::setWriting(string writing){
 
 string Item::getWriting(){
     return writing;
+}
+
+void Item::turnOn(){
+    if(turnOnAct) turnOnAct->exec();
+    else cout << "cannot turn on " << getName() << endl;
 }

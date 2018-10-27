@@ -53,7 +53,7 @@ public:
     // TODO: decide and probably implement those...
     // probably no work...
     virtual void addToCollection(GameObject*, ObjectType); 
-    //virtual GameObject* deleteFromCollection(GameObject*, ObjectType);
+    virtual void deleteFromCollection(string, ObjectType);
 
     virtual void addTriggers(Trigger*);
     virtual bool checkAllTriggers(string);

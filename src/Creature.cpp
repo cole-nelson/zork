@@ -15,3 +15,7 @@ Creature::~Creature() {}
 void Creature::addVulnerability(string vulner){
     vulnerabilities.insert(vulner);
 }
+
+void Creature::attack(string name){
+
+}
