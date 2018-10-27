@@ -10,12 +10,14 @@ using namespace std;
 class Action{
 protected:
     GameObject* target;
+    string printedText;
 public:
     Action(GameObject* target): target(target){};
     Action(const Action& orig): target(orig.target){};
     virtual ~Action(){};
     virtual void setTarget(GameObject* target){this->target = target;};
     virtual void exec()=0;
+    void setPrint(string updatePrint) {printedText = updatePrint;}
 };
 
 class UpdateAction: public Action{
