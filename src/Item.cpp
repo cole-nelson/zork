@@ -25,6 +25,7 @@ string Item::getWriting(){
 }
 
 void Item::turnOn(){
+	turnOnTrigger->fire();
 	/*if(turnOnAct.size() != 0) {
 		for(auto act : turnOnAct) {
 			act->exec();
