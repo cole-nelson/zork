@@ -19,8 +19,6 @@ public:
     virtual ~Player();
 
     Room* move(Direction, Room*, unordered_map<string, Room*>&);
-    void addItem(Item*);
-    Item* delItem(string);
     void readItem(string);
     void takeItem(string, Room*);
     void dropItem(string, Room*);

@@ -1,17 +1,10 @@
 #include "../inc/GameObject.h"
 
 GameObject::GameObject():
-    name("nameless"),stat("off"),desp("No description")
+    name("nameless"),stat("off"),desp("No description"),belongsTo(NULL)
 {}
 
-/*
-GameObject::GameObject(const GameObject& orig):
-    name(orig.name),stat(orig.stat),desp(orig.desp),
-    collection(orig.collection), triggers(orig.triggers)
-{}
-*/
-
-GameObject::~GameObject() {}
+GameObject::~GameObject() { for(auto trigger: triggers) delete trigger;}
 
 void GameObject::setName(string name){ this->name = name;}
 void GameObject::setStatus(string stat){ this->stat = stat;}
@@ -20,6 +13,8 @@ string GameObject::getName() {return name;}
 string GameObject::getStatus() {return stat;} 
 string GameObject::getDescription() {return desp;}
 
+// temporary solution for now
+void GameObject::setBelongsTo(GameObject* fartherObj){belongsTo = fartherObj;}
 
 GameObject* GameObject::searchCollection(const string& target){
     
@@ -116,3 +111,5 @@ bool GameObject::checkAllTriggers(string cmd){
 
     return false;
 }
+
+GameObject* GameObject::getBelongsTo(){return belongsTo;}

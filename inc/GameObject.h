@@ -30,6 +30,7 @@ protected:
     string desp;
     unordered_map<ObjectType, vector<GameObject*>*> collection;
     unordered_set<Trigger*> triggers;
+    GameObject* belongsTo;
 
 public:
 	GameObject();
@@ -39,6 +40,7 @@ public:
     virtual void setName(string);             // these are better
     virtual void setStatus(string);
     virtual void setDescription(string);
+    virtual void setBelongsTo(GameObject*);
 
     virtual string getName();
 	virtual string getStatus(); 
@@ -47,16 +49,14 @@ public:
     virtual GameObject* searchCollection(const string&);
     virtual GameObject* searchCollection(const string&, ObjectType);
 
-    // This two probably could serve a purpose that generalize delete and
-    // add action to some GameObject
-    // TODO: decide and probably implement those...
-    // probably no work...
     virtual void addToCollection(GameObject*, ObjectType); 
     virtual void deleteFromCollection(string, ObjectType);
     virtual void deleteFromCollection(string);
 
     virtual void addTriggers(Trigger*);
     virtual bool checkAllTriggers(string);
+
+    virtual GameObject* getBelongsTo();
 };
 
 

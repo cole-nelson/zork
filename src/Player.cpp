@@ -14,19 +14,8 @@ Room* Player::move(Direction dir, Room* from,
         return from;
     }
     
-
     Room* ret = rooms[room_name];
     cout << ret -> getDescription() << endl;
-    return ret;
-}
-
-void Player::addItem(Item* item){
-    inventory->addToCollection(item, ITEM);
-}
-
-Item* Player::delItem(string name){
-    Item* ret = static_cast<Item*>(inventory->searchCollection(name,ITEM));
-    inventory->deleteFromCollection(name,ITEM);
     return ret;
 }
 
@@ -39,13 +28,19 @@ void Player::takeItem(string name, Room* context){
     GameObject* targetItem = context->searchCollection(name);
    
     if(!targetItem) cout << name << " does not exist..." << endl;
-    else inventory->addToCollection(targetItem, ITEM); 
+    else {
+        inventory->addToCollection(targetItem, ITEM); 
+        targetItem->setBelongsTo(inventory);
+    }
 }
 
 void Player::dropItem(string name, Room* context){
     GameObject* ret = inventory->searchCollection(name, ITEM);
     inventory->deleteFromCollection(name,ITEM);
-    if(ret)context->addToCollection(ret,ITEM);
+    if(ret){
+        context->addToCollection(ret,ITEM);
+        ret->setBelongsTo(inventory);
+    }
 }
 
 void Player::openInventory(){

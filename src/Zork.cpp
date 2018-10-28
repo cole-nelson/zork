@@ -71,9 +71,11 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
             vector<std::string> x = SplitString(tAttr->value(), " ");
             Action *a;
             if(x[0] == "Update") {
+                //TODO: need better error handling
+                // assert(originalObjs[x[1]]);
                 a = new UpdateAction(context, x[3]); //Update[0] <object>[1] to[2] <status>[3]
             } else if(x[0] == "Delete") {
-                a = new DelAction(context, x[1]); // Delete[0] <object>[1]
+                a = new DelAction(originalObjs[x[1]]->getBelongsTo(), x[1]); // Delete[0] <object>[1]
             } else if(x[0] == "Add") { 
                 a = new AddAction(originalObjs[x[3]], originalObjs[x[1]]); // Add[0] <object>[1] to[2] <container>[3]
             }
@@ -187,6 +189,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName == "item"){
                     assert(originalObjs[attrValue]);
                     new_container->addItem(static_cast<Item*>(originalObjs[attrValue]));
+                    originalObjs[attrValue]->setBelongsTo(new_container);
                 }
             }
             //spawn a new container
@@ -253,10 +256,13 @@ void Zork::constructGame(const char *fname) {
                     new_room->setNeighbor(dir,dir_name);
                 } else if(attrName == "item") {
                     new_room->addToCollection(originalObjs[attrValue], ITEM);
+                    originalObjs[attrValue]->setBelongsTo(new_room);
                 } else if(attrName == "container") {
                     new_room->addToCollection(originalObjs[attrValue], CONTAINER); 
+                    originalObjs[attrValue]->setBelongsTo(new_room);
                 } else if(attrName == "creature"){
                     new_room->addToCollection(originalObjs[attrValue], CREATURE);
+                    originalObjs[attrValue]->setBelongsTo(new_room);
                 }
             }
             originalObjs[new_room->getName()] = new_room;
@@ -326,12 +332,8 @@ void Zork::playGame() {
             }
             else{
                 Container* cont = static_cast<Container*>(loc_now->searchCollection(target1, CONTAINER));
-                if(!cont){
-                    cout << "container " << target1 << " does not exist" << endl;
-                }
-                else{
-                    cont->open();
-                }
+                if(!cont) cout << "container " << target1 << " does not exist" << endl;
+                else cont->open();
             }
         }
         else if(cmd == "read"){
