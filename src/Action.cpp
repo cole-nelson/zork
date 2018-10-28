@@ -23,6 +23,7 @@ AddAction::AddAction(const AddAction& orig):
 AddAction::~AddAction(){}
 
 void AddAction::exec(){
+    cout << "Adding " << origItem->getName() << " to " << target->getName() << endl;
     target->addToCollection(origItem, ITEM);
 }
 

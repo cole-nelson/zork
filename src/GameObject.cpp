@@ -45,11 +45,12 @@ GameObject* GameObject::searchCollection(const string& target, ObjectType type){
 
 void GameObject::addToCollection(GameObject* item, ObjectType type){
     
+    
     if(collection.find(type) == collection.end()){
         cout << "no such collection in " << item->getName() << endl;
         return;
     }
-    // make a copy and push back
+   
     collection[type]->push_back(item);
 
 }

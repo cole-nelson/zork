@@ -75,8 +75,7 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
             } else if(x[0] == "Delete") {
                 a = new DelAction(context, x[1]); // Delete[0] <object>[1]
             } else if(x[0] == "Add") { 
-                /*****************************NOT DONE WITH THIS**********************/
-                //a = new AddAction(); // Add[0] <object>[1] to[2] <container>[3]
+                a = new AddAction(originalObjs[x[3]], originalObjs[x[1]]); // Add[0] <object>[1] to[2] <container>[3]
             }
             t->addAction(a);
         }  
@@ -92,18 +91,15 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
             
             string attrName(attr->name());
             string attrValue(attr->value());
-            cout << "name " << attrName << " value " << attrValue << endl;
             if(attrName == "name") {
                 name = attrValue;
             }
             else if(attrName == "trigger") {
                 GameObject* obj = originalObjs[name]; 
-                cout << "new_trigger " << name << endl;
                 constructTrigger(attr, obj, true);
             }
             else if(attrName == "attack") {
                 Creature* obj = static_cast<Creature*>(originalObjs[name]);
-                cout << "new_attack " << name << endl;
                 obj->setAttackTrigger(constructTrigger(attr, obj, false));
             }
 
@@ -163,7 +159,6 @@ void Zork::constructGame(const char *fname) {
                 } 
             }
             originalObjs[new_Item->getName()] = new_Item; 
-            cerr << "new item! " << new_Item -> getName() << endl;
         }
         root = root->next_sibling();
     }
@@ -195,7 +190,6 @@ void Zork::constructGame(const char *fname) {
                 }
             }
             //spawn a new container
-            cout << "new container! " << new_container -> getName() << endl;
             originalObjs[new_container->getName()] = new_container;
         }
         root = root->next_sibling();
@@ -223,7 +217,6 @@ void Zork::constructGame(const char *fname) {
                 } 
             }
             //spwan a new creature
-            cout << "new creature! " << new_creature -> getName() << endl;
             originalObjs[new_creature->getName()] = new_creature;
         }
         root = root->next_sibling();
