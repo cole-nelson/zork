@@ -37,6 +37,10 @@ public:
     virtual void exec();
 };
 
+// this has some serious problem
+// 1. when setting target, the target should be whoever containing this
+// 2. if delete directly from the entire game, other vector containing 
+// this will be messed up
 class DelAction: public Action{
     string nameToDelete;
 public:

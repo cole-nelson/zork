@@ -37,5 +37,5 @@ DelAction::DelAction(const DelAction& orig):
 DelAction::~DelAction(){}
 
 void DelAction::exec(){
-    target->deleteFromCollection(nameToDelete, ITEM);
+    target->deleteFromCollection(nameToDelete);
 }

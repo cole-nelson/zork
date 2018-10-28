@@ -54,6 +54,7 @@ public:
     // probably no work...
     virtual void addToCollection(GameObject*, ObjectType); 
     virtual void deleteFromCollection(string, ObjectType);
+    virtual void deleteFromCollection(string);
 
     virtual void addTriggers(Trigger*);
     virtual bool checkAllTriggers(string);
