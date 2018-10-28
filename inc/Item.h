@@ -23,6 +23,7 @@ public:
 
     void setWriting(string);
     void addAction(Action*);
+    void setTrigger(Trigger *t);
 	string getWriting();
     
     void turnOn();

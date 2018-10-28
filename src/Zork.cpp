@@ -78,7 +78,18 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
                 t->setCondition(new HasCondition(context, has == "yes", object, targetObj));
             }
 
-		}//****************END CONDITION CONSTRUCTION*****************
+		} else if(tAttr->name() == std::string ("action")) {
+            vector<std::string> x = SplitString(tAttr->value(), " ");
+            Action *a;
+            if(x[0] == "Update") {
+                a = new UpdateAction(context, x[3]); //Update[0] <object>[1] to[2] <status>[3]
+            } else if(x[0] == "Delete") {
+                a = new DelAction(context, x[1]); // Delete[0] <object>[1]
+            } else if(x[0] == "Add") { /*****************************NOT DONE WITH THIS**********************/
+                //a = new AddAction(); // Add[0] <object>[1] to[2] <container>[3]
+            }
+            t->addAction(a);
+        }  
 	}
 	return t;
 }
@@ -110,6 +121,8 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
 void Zork::turnOnSetup(rapidxml::xml_node<> *aRoot, Item *context) {
 	Trigger *t = constructTrigger(aRoot, context);
 	t->setCondition(new TrueCondition());
+    t->setCommand("turn on");
+    context->setTrigger(t);
 }
 
 void Zork::constructGame(const char *fname) {
@@ -152,7 +165,7 @@ void Zork::constructGame(const char *fname) {
                 } else if(attrName == "writing") {
                     new_Item->setWriting(attrValue);
                 } else if(attrName == "turnon") {
-                    turnOnSetup(attr->first_node(), new_Item);
+                    turnOnSetup(attr, new_Item);
                 } 
             }
             originalObjs[new_Item->getName()] = new_Item; 

@@ -16,6 +16,10 @@ Item::~Item() {}
 	turnOnAct.push_back(a);
 }*/
 
+void Item::setTrigger(Trigger *t) {
+    this->turnOnTrigger = t;
+}
+
 void Item::setWriting(string writing){
     this->writing = writing;
 }
@@ -25,7 +29,7 @@ string Item::getWriting(){
 }
 
 void Item::turnOn(){
-	turnOnTrigger->fire();
+	checkAllTriggers("turn on");
 	/*if(turnOnAct.size() != 0) {
 		for(auto act : turnOnAct) {
 			act->exec();

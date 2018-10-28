@@ -6,7 +6,7 @@ Trigger::Trigger():
     stat(""), cond(NULL) {}
 
 Trigger::Trigger(const Trigger& trig) :
-    cmd(trig.cmd), type(trig.type), print(trig.type),
+    cmd(trig.cmd), type(trig.type), print(trig.print),
     actions(trig.actions), stat(trig.stat), cond(trig.cond) {}
 
 Trigger::~Trigger(){
