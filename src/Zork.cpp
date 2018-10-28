@@ -71,8 +71,7 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
             vector<std::string> x = SplitString(tAttr->value(), " ");
             Action *a;
             if(x[0] == "Update") {
-                //TODO: need better error handling
-                // assert(originalObjs[x[1]]);
+                assert(originalObjs[x[1]]);
                 a = new UpdateAction(context, x[3]); //Update[0] <object>[1] to[2] <status>[3]
             } else if(x[0] == "Delete") {
                 a = new DelAction(originalObjs[x[1]]->getBelongsTo(), x[1]); // Delete[0] <object>[1]
@@ -104,11 +103,19 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
                 Creature* obj = static_cast<Creature*>(originalObjs[name]);
                 obj->setAttackTrigger(constructTrigger(attr, obj, false));
             }
+            else if(attrName == "turnon") {
+                Item* obj = static_cast<Item*>(originalObjs[name]);
+                Trigger *t = constructTrigger(attr, obj, false);
+                t->setCondition(new TrueCondition());
+                t->setCommand("turn on");
+                obj->setTrigger(t); 
+            }
 
         }
         root = root->next_sibling();
     }
 }
+/*
 
 void Zork::turnOnSetup(rapidxml::xml_node<> *aRoot, Item *context) {
 	Trigger *t = constructTrigger(aRoot, context, false);
@@ -117,6 +124,7 @@ void Zork::turnOnSetup(rapidxml::xml_node<> *aRoot, Item *context) {
     context->setTrigger(t);
 }
 
+*/
 void Zork::constructGame(const char *fname) {
 
     // Open XML file
@@ -156,11 +164,10 @@ void Zork::constructGame(const char *fname) {
                     new_Item->setDescription(attrValue);
                 } else if(attrName == "writing") {
                     new_Item->setWriting(attrValue);
-                } else if(attrName == "turnon") {
-                    turnOnSetup(attr, new_Item);
-                } 
+                }
             }
             originalObjs[new_Item->getName()] = new_Item; 
+            cout << new_Item->getName() << endl;
         }
         root = root->next_sibling();
     }

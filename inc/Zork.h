@@ -27,7 +27,7 @@ private:
 
     void linkTriggers(rapidxml::xml_node<>*);
 	Trigger* constructTrigger(rapidxml::xml_node<>*, GameObject*, bool);
-	void turnOnSetup(rapidxml::xml_node<> *, Item *);
+	//void turnOnSetup(rapidxml::xml_node<> *, Item *);
 public:
 	Zork(char *fname);
 	virtual ~Zork();
