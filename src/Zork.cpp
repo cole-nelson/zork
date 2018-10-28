@@ -341,19 +341,30 @@ void Zork::playGame() {
             player.dropItem(target1, loc_now);
         }
         else if(cmd == "put" && cmd_ls[2] == "in"){
+            GameObject* retCont = loc_now->searchCollection(target2, CONTAINER);
+            GameObject* retItem = player.inventory->searchCollection(target1, ITEM);
+            if(!retCont) cout << "there is no " << target1 << " in this room..." << endl;
+            else if (!retItem) cout << "you do not have " << target2 << " in your inventory..." << endl;
+            else{
+                player.inventory->deleteFromCollection(target1, ITEM);
+                retCont->addToCollection(originalObjs[target1], ITEM);
+            }
+
+
         }
         else if(cmd == "turn" && target1 == "on"){
-        	Item *ret = static_cast<Item*>(player.inventory->searchCollection(target2, INVENTORY));
+        	Item *ret = static_cast<Item*>(player.inventory->searchCollection(target2, ITEM));
             cout << "trying to turn on " << target2 << endl;
         	if(ret != NULL)ret->turnOn();
         }
         else if(cmd == "attack" && cmd_ls[2] == "with"){
             Creature *retCreature = static_cast<Creature*>(loc_now->searchCollection(target1, CREATURE));
-            Item *retItem = static_cast<Item*>(player.inventory->searchCollection(target2, INVENTORY));
+            Item *retItem = static_cast<Item*>(player.inventory->searchCollection(target2, ITEM));
             if(retCreature == NULL) cout << "there is no " << target1 << " in this room..." << endl;
             else if(retItem == NULL) cout << "you do not have " << target2 << " in your inventory..." << endl;
             else {
                 retCreature->attack(target2);
+                player.inventory->deleteFromCollection(target2, ITEM);
             }
         }
         else{

@@ -20,8 +20,7 @@ using namespace std;
 enum ObjectType{
     ITEM,
     CONTAINER,
-    CREATURE,
-    INVENTORY
+    CREATURE
 };
 
 class GameObject {
