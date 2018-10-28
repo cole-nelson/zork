@@ -2,6 +2,7 @@
 #define INC_PLAYER_H_
 
 #include "GameObject.h"
+#include "Container.h"
 #include "Item.h"
 #include "Room.h"
 
@@ -11,11 +12,10 @@
 
 using namespace std;
 
-class Player: public GameObject{
-    vector<GameObject*> inventory;
-    vector<GameObject*>::iterator searchInventory(string);
+class Player{
+    Container* inventory;
 public:
-    Player();
+    Player(Container*);
     virtual ~Player();
 
     Room* move(Direction, Room*, unordered_map<string, Room*>&);
@@ -25,6 +25,7 @@ public:
     void takeItem(string, Room*);
     void dropItem(string, Room*);
     void openInventory();
+friend class Zork;
 };
 
 #endif

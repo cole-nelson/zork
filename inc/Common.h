@@ -4,5 +4,4 @@
 class GameObject;
 class Trigger;
 class Action;
-
 #endif

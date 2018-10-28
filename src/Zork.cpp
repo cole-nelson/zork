@@ -6,33 +6,26 @@
 #include <string>
 
 #include "../inc/util.h"
-#include "../inc/Trigger.h"
-#include "../inc/rapidxml.hpp"
-#include "../inc/GameObject.h"
 #include "../inc/Zork.h"
-#include "../inc/Room.h"
-#include "../inc/Container.h"
-#include "../inc/Creature.h"
-#include "../inc/Item.h"
 
-Zork::Zork(char *fname) : gameOver(false) {
+Zork::Zork(char *fname) : 
+    gameOver(false), player(new Container()){
+    originalObjs["inventory"] = player.inventory;
 	constructGame(fname);
 }
 
 Zork::~Zork() {
 	for(auto obj:originalObjs) delete obj.second;
     for(auto room:Rooms)       delete room.second;
-    for(auto obj:gameObjs)     delete obj;
-    for(auto tri:triggerPool)  delete tri;
 }
 
-Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context) {
+Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context, bool directAppend) {
 	/**************************************************
 	 * Search file for triggers, construct separately
 	 * due to different handling
 	 ***************************************************/
 	Trigger *t = new Trigger();
-    context -> addTriggers(t);
+    if(directAppend)context -> addTriggers(t);
 	std::string has = "", owner, stat, object;
 	for(rapidxml::xml_node<> *tAttr = trig_node->first_node();
 			tAttr != NULL; tAttr = tAttr->next_sibling()) {
@@ -62,19 +55,15 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
 			if(has == (std::string)"") {
                 // object-status condition
                 cout << "staConditation Trigger " << context-> getName() << endl;
-                if(object == context->getName()) targetObj = context;
-                else targetObj = context->searchCollection(object);
+                if(originalObjs.find(object) == originalObjs.end()){
+                    cerr << "object name: " << object << "cannot be found" << endl;
+                    exit(1);
+                }
+                targetObj = originalObjs[object];
 				t->setCondition(new StatCondition(targetObj, stat));
 			} else {
-                if(owner == "inventory"){
-                    targetObj = &player;
-                }
-                else{
-                    cout << "search " << owner << " in " << context->getName() << endl;
-                    if(owner == context->getName()) targetObj = context;
-                    else targetObj = context->searchCollection(owner);
-                }
-                assert(targetObj);
+                cout << "search " << owner << " in " << context->getName() << endl;
+                targetObj = originalObjs[owner];
                 t->setCondition(new HasCondition(context, has == "yes", object, targetObj));
             }
 
@@ -85,7 +74,8 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
                 a = new UpdateAction(context, x[3]); //Update[0] <object>[1] to[2] <status>[3]
             } else if(x[0] == "Delete") {
                 a = new DelAction(context, x[1]); // Delete[0] <object>[1]
-            } else if(x[0] == "Add") { /*****************************NOT DONE WITH THIS**********************/
+            } else if(x[0] == "Add") { 
+                /*****************************NOT DONE WITH THIS**********************/
                 //a = new AddAction(); // Add[0] <object>[1] to[2] <container>[3]
             }
             t->addAction(a);
@@ -109,8 +99,12 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
             else if(attrName == "trigger") {
                 GameObject* obj = originalObjs[name]; 
                 cout << "new_trigger " << name << endl;
-                assert(obj);
-                constructTrigger(attr, obj);
+                constructTrigger(attr, obj, true);
+            }
+            else if(attrName == "attack") {
+                Creature* obj = static_cast<Creature*>(originalObjs[name]);
+                cout << "new_attack " << name << endl;
+                obj->setAttackTrigger(constructTrigger(attr, obj, false));
             }
 
         }
@@ -119,7 +113,7 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
 }
 
 void Zork::turnOnSetup(rapidxml::xml_node<> *aRoot, Item *context) {
-	Trigger *t = constructTrigger(aRoot, context);
+	Trigger *t = constructTrigger(aRoot, context, false);
 	t->setCondition(new TrueCondition());
     t->setCommand("turn on");
     context->setTrigger(t);
@@ -146,7 +140,7 @@ void Zork::constructGame(const char *fname) {
 
     // Iterate, spawn items, add to Zork table
 
-    // spawn all base items
+    // spawn all items
     root = doc.first_node()->first_node();
     while(root != NULL) {
         if(root->name() == (string)"item"){
@@ -169,7 +163,7 @@ void Zork::constructGame(const char *fname) {
                 } 
             }
             originalObjs[new_Item->getName()] = new_Item; 
-            cout << "new item! " << new_Item -> getName() << endl;
+            cerr << "new item! " << new_Item -> getName() << endl;
         }
         root = root->next_sibling();
     }
@@ -226,8 +220,6 @@ void Zork::constructGame(const char *fname) {
                     new_creature->setDescription(attrValue);
                 } else if(attrName == "vulnerability") {
                     new_creature->addVulnerability(attrValue);
-                } else if(attrName ==  "attack") {
-                    // do something
                 } 
             }
             //spwan a new creature
@@ -267,11 +259,11 @@ void Zork::constructGame(const char *fname) {
                     }
                     new_room->setNeighbor(dir,dir_name);
                 } else if(attrName == "item") {
-                    new_room->addItem(static_cast<Item*>(originalObjs[attrValue]));
+                    new_room->addToCollection(originalObjs[attrValue], ITEM);
                 } else if(attrName == "container") {
-                    new_room->addContainer(static_cast<Container*>(originalObjs[attrValue])); 
+                    new_room->addToCollection(originalObjs[attrValue], CONTAINER); 
                 } else if(attrName == "creature"){
-                    //new_room->addContainer(static_cast<Container*>(originalObjs[attrValue]));
+                    new_room->addToCollection(originalObjs[attrValue], CREATURE);
                 }
             }
             originalObjs[new_room->getName()] = new_room;
@@ -293,6 +285,7 @@ void Zork::playGame() {
         
         // check triggers in the current context
         if(loc_now -> checkAllTriggers(cmd)) continue;
+        if(player.inventory -> checkAllTriggers(cmd)) continue;
 
         vector<string> cmd_ls = SplitString(cmd, " ");
         if(cmd_ls.size() == 2){// take <item> | drop <itemp> | 
@@ -330,10 +323,7 @@ void Zork::playGame() {
             player.openInventory();
         }
         else if(cmd == "take"){
-            Item* targetItem = loc_now->delItem(target1);
-            if(!targetItem) continue;
-            player.addItem(targetItem);
-            delete targetItem;
+            player.takeItem(target1, loc_now);
         }
         else if(cmd == "open"){
             if(target1 == "exit"){
@@ -355,25 +345,30 @@ void Zork::playGame() {
             player.readItem(target1);  
         }
         else if(cmd == "drop"){
-            Item* targetItem = player.delItem(target1);
-
-            if(!targetItem) continue;
-            loc_now->addItem(targetItem);
-            delete targetItem;
+            player.dropItem(target1, loc_now);
         }
-        else if(cmd == "put" && cmd_ls[3] == "in"){
+        else if(cmd == "put" && cmd_ls[2] == "in"){
         }
         else if(cmd == "turn" && target1 == "on"){
-        	Item *ret = static_cast<Item*>(player.searchCollection(target2, INVENTORY));
-        	if(ret != NULL) {
-        		ret->turnOn();
-        	}
+        	Item *ret = static_cast<Item*>(player.inventory->searchCollection(target2, INVENTORY));
+            cout << "trying to turn on " << target2 << endl;
+        	if(ret != NULL)ret->turnOn();
         }
-        else if(cmd == "attack" && cmd_ls[3] == "with"){
+        else if(cmd == "attack" && cmd_ls[2] == "with"){
+            Creature *retCreature = static_cast<Creature*>(loc_now->searchCollection(target1, CREATURE));
+            Item *retItem = static_cast<Item*>(player.inventory->searchCollection(target2, INVENTORY));
+            if(retCreature == NULL) cout << "there is no " << target1 << " in this room..." << endl;
+            else if(retItem == NULL) cout << "you do not have " << target2 << " in your inventory..." << endl;
+            else {
+                retCreature->attack(target2);
+            }
         }
         else{
             cout << "error" << endl;
         }
+
+        if(loc_now -> checkAllTriggers("")) continue;
+        if(player.inventory -> checkAllTriggers("")) continue;
     }
 
     cout << "Victory!" << endl;

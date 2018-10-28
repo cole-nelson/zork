@@ -6,9 +6,11 @@ Item::Item():
     GameObject(),
     writing("Nothing written")/*, turnOnAct()*/{}
 
+    /*
 Item::Item(const Item& orig):
     GameObject(orig),
-    writing(orig.writing)/*, turnOnAct(orig.turnOnAct)*/{}
+    writing(orig.writing), turnOnAct(orig.turnOnAct){}
+*/
 
 Item::~Item() {}
 
@@ -29,10 +31,9 @@ string Item::getWriting(){
 }
 
 void Item::turnOn(){
-	checkAllTriggers("turn on");
-	/*if(turnOnAct.size() != 0) {
-		for(auto act : turnOnAct) {
-			act->exec();
-		}
-	} else cout << "cannot turn on " << getName() << endl;*/
+    if(!turnOnTrigger) cout << "cannot turn on" << endl;
+    else if(turnOnTrigger->checkCondition("turn on")){
+        turnOnTrigger->fire();
+    }
+    else cout << "not now..." << endl;
 }

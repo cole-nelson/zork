@@ -5,11 +5,13 @@
 Creature::Creature():
     GameObject(),attackTrigger(NULL){}
 
+/* 
 Creature::Creature(const Creature& orig):
     GameObject(orig),
     vulnerabilities(orig.vulnerabilities),
     attackTrigger(orig.attackTrigger)
 {}
+*/
 
 
 Creature::~Creature() {}

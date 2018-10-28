@@ -8,13 +8,13 @@
 #ifndef INC_GAMEOBJECT_H_
 #define INC_GAMEOBJECT_H_
 
+#include "Common.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include "Common.h"
-#include "Trigger.h"
 
+#include "Trigger.h"
 using namespace std;
 
 enum ObjectType{
@@ -34,7 +34,7 @@ protected:
 
 public:
 	GameObject();
-    GameObject(const GameObject&);
+    //GameObject(const GameObject&);
 	virtual ~GameObject();              
 
     virtual void setName(string);             // these are better

@@ -4,10 +4,12 @@ GameObject::GameObject():
     name("nameless"),stat("off"),desp("No description")
 {}
 
+/*
 GameObject::GameObject(const GameObject& orig):
     name(orig.name),stat(orig.stat),desp(orig.desp),
     collection(orig.collection), triggers(orig.triggers)
 {}
+*/
 
 GameObject::~GameObject() {}
 
@@ -59,13 +61,13 @@ void GameObject::deleteFromCollection(string item, ObjectType type){
         return;
     }
 
-    auto it = collection[type]->begin();
-    for(;it != collection[type]->end(); it++){
+    for(auto it = collection[type]->begin();it != collection[type]->end(); it++){
         if((*it)->getName() == item){
             it = collection[type]->erase(it);
         }
     }
 }
+
 void GameObject::addTriggers(Trigger* trig){
     triggers.insert(trig);
 }
@@ -83,16 +85,14 @@ bool GameObject::checkAllTriggers(string cmd){
         if((*triggersIt) -> checkCondition(cmd)){
             (*triggersIt) -> fire();
             if((*triggersIt) -> getType() == "single"){
+                delete * triggersIt;
                 triggersIt = triggers.erase(triggersIt); 
             }
             return true;
         }
     }
 
-    // check all obj belongs to current obj
-    cout << "checking triggers for " << name << endl;
     for(auto collect: collection){
-        cout << "collect name: " << collect.first << endl;
         for(auto objPtr: *collect.second){
             if(objPtr->checkAllTriggers(cmd)) return true;
         }

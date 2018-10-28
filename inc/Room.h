@@ -33,14 +33,12 @@ public:
 	virtual ~Room();
     void setNeighbor(string, string);
     string getNeighbor(Direction);
+    virtual GameObject* searchContainers(const string&);
+    virtual GameObject* searchCollection(const string&);
+    virtual GameObject* searchCollection(const string&, ObjectType); // dont know why this cannot 
+                                                                     // be inheret from GameObject
     void setType(string);
 
-    void addItem(Item*);
-    void addContainer(Container*);
-    void addCreature(Creature*);
-    Item*       delItem     (string);
-    Container*  delContainer(string);
-    Creature*   delCreature (string);
     bool isExit();
 };
 

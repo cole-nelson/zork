@@ -14,7 +14,7 @@ private:
     bool open_stat;
 public:
     Container();
-    Container(const Container& orig);
+    //Container(const Container& orig);
 	virtual ~Container();
 
     void addAccept(string);

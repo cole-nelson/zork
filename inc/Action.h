@@ -1,9 +1,8 @@
 #ifndef INC_ACTION_H_
 #define INC_ACTION_H_
 
-#include "Common.h"
-#include "GameObject.h"
 #include <string>
+#include "GameObject.h"
 
 using namespace std;
 

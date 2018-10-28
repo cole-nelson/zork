@@ -3,12 +3,11 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "GameObject.h"
 #include "Action.h"
-#include "Common.h"
 
 using namespace std;
 
+class GameObject;
 class Condition{
 public:
     Condition();
@@ -54,7 +53,7 @@ private:
 public:
     Condition* cond;
     Trigger();
-	Trigger(const Trigger&);
+    //	Trigger(const Trigger&);
 	virtual ~Trigger();
 
 	virtual void setType(string);

@@ -7,11 +7,6 @@ Container::Container():
     collection[ITEM] = &items;
 }
 
-Container::Container(const Container& orig):
-    GameObject(orig),
-    items(orig.items), accept(orig.accept), open_stat(orig.open_stat)
-{}
-
 Container::~Container() {}
 
 void Container::addAccept(string name){
@@ -25,15 +20,14 @@ void Container::addItem(Item* obj){
 
 Item* Container::delItem(string name){
     if(!open_stat) return NULL;
-    auto it = items.begin();
-    for(;it != items.end();it++){
-        if((*it)->getName() == name) break; 
+    for(auto it = items.begin();it != items.end();it++){
+        if((*it)->getName() == name){
+            Item* ret = static_cast<Item*>(*it);
+            it = items.erase(it);
+            return ret;
+        }
     }
-    if(it == items.end()) return NULL;
-    
-    Item* newItem = new Item(*static_cast<Item*>(*it));
-    items.erase(it);
-    return newItem;
+    return NULL; 
 }
 
 void Container::open(){

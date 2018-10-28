@@ -18,7 +18,7 @@ private:
     Trigger *turnOnTrigger;
 public:
     Item();
-    Item(const Item&);
+    //Item(const Item&);
 	virtual ~Item();
 
     void setWriting(string);

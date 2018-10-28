@@ -1,21 +1,9 @@
 #include "../inc/Player.h"
 
-Player::Player():
-    GameObject(){
-    collection[INVENTORY] = &inventory;
-}
+Player::Player(Container* inventory):
+    inventory(inventory){}
 
 Player::~Player(){}
-
-vector<GameObject*>::iterator Player::searchInventory(string name){
-    for(auto it = inventory.begin(); it != inventory.end(); it++){
-        if((*it)->getName() == name){
-            return it; 
-        }
-    }
-    cout << "item does not exist" << endl;
-    return inventory.end();
-}
 
 Room* Player::move(Direction dir, Room* from, 
         unordered_map<string, Room*>& rooms)
@@ -33,48 +21,35 @@ Room* Player::move(Direction dir, Room* from,
 }
 
 void Player::addItem(Item* item){
-    Item* newItem = new Item(*item);
-    inventory.push_back(newItem);
+    inventory->addToCollection(item, ITEM);
 }
 
 Item* Player::delItem(string name){
-    auto it = searchInventory(name);
-    if(it != inventory.end()){
-        Item* ret = new Item(*static_cast<Item*>(*it));
-        inventory.erase(it);
-        return ret; 
-    }
-    
-    return NULL;
+    Item* ret = static_cast<Item*>(inventory->searchCollection(name,ITEM));
+    inventory->deleteFromCollection(name,ITEM);
+    return ret;
 }
 
 void Player::readItem(string name){
-    auto it = searchInventory(name);
-    if(it != inventory.end()){
-        cout << static_cast<Item*>(*it)->getWriting() << endl;
-    }
+    Item* ret = static_cast<Item*>(inventory->searchCollection(name,ITEM));
+    if(ret) cout << ret->getWriting() << endl;
 }
 
 void Player::takeItem(string name, Room* context){
-    Item* targetItem = static_cast<Item*>(context->searchCollection(name, ITEM));
-    
-    if(!targetItem){
-        // search through all open containers within the context
-    }
+    GameObject* targetItem = context->searchCollection(name);
+   
+    if(!targetItem) cout << name << " does not exist..." << endl;
+    else inventory->addToCollection(targetItem, ITEM); 
+}
 
-    if(!targetItem){
-        cout << name << " does not exist..." << endl;
-    }
-    else{
-
-    }
+void Player::dropItem(string name, Room* context){
+    GameObject* ret = inventory->searchCollection(name, ITEM);
+    inventory->deleteFromCollection(name,ITEM);
+    if(ret)context->addToCollection(ret,ITEM);
 }
 
 void Player::openInventory(){
-    for(auto item:inventory){
-        cout << static_cast<Item*>(item)->getName() << " ";
-    }
-    cout << endl;
+    inventory->open();
 }
 
 

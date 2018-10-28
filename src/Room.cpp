@@ -11,7 +11,6 @@ Room::Room():
     collection[CREATURE] = &creatures;
 }
 
-// TODO: write proper descructor
 Room::~Room(){}
 
 void Room::setNeighbor(string dir, string roomName){
@@ -28,52 +27,40 @@ string Room::getNeighbor(Direction dir){
     else                    return west;
 }
 
-void Room::addItem(Item* item){
-    Item* newItem = new Item(*item);
-    items.push_back(newItem);
+GameObject* Room::searchContainers(const string& name){
+    for(auto cont: containers){
+        GameObject* ret = cont->searchCollection(name,ITEM);
+        if(ret) return ret;
+    }
+    return NULL;
 }
 
-void Room::addContainer(Container* container){
-    Container* newContainer = new Container(*container);
-    containers.push_back(newContainer);
+GameObject* Room::searchCollection(const string& name){
+    
+    for(auto collect: collection){
+        for(auto item: *collect.second){
+            if(item->getName() == name) return item;
+        }
+    }
+    
+    return searchContainers(name);
 }
 
-void Room::addCreature(Creature* creature){
-    Creature* newCreature = new Creature(*creature);
-    creatures.push_back(newCreature); 
-}
-
-Item* Room::delItem(string name){
-    for(auto it = items.begin(); it != items.end(); it++){
-        if((*it)->getName() == name){
-            Item* ret = new Item(*static_cast<Item*>(*it));
-            items.erase(it);
-            return ret; 
+GameObject* Room::searchCollection(const string& target, ObjectType type){
+     
+    for(auto collect: collection){
+        for(auto item: *collect.second){
+            if(item->getName() == target) return item;
         }
     }
 
-    for(auto it = containers.begin(); it != containers.end(); it++){
-        Item* ret = static_cast<Container*>(*it) -> delItem(name);
-        if(ret) return ret;
-    }
-
-    cout << name << " does not exist" << endl;
     return NULL;
 }
-
-// TODO: implement those
-Container* Room::delContainer(string name){
-    return NULL;
-}
-
-Creature* Room::delCreature (string name){
-    return NULL;
-}
-
 
 void Room::setType(string type){
     this->type = type;
 }
+
 bool Room::isExit(){
     cout << type << endl;
     return type=="exit"?true:false;
