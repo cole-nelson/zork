@@ -26,12 +26,15 @@ void Player::readItem(string name){
 
 void Player::takeItem(string name, Room* context){
     GameObject* targetItem = context->searchCollection(name);
-   
-    if(!targetItem) cout << name << " does not exist..." << endl;
-    else {
-        inventory->addToCollection(targetItem, ITEM); 
-        targetItem->setBelongsTo(inventory);
+    if(!targetItem) targetItem = context->searchContainers(name);
+    if(!targetItem){
+        cout << name << " does not exist..." << endl;
+        return;
     }
+
+    targetItem->getBelongsTo()->deleteFromCollection(name, ITEM);
+    inventory->addToCollection(targetItem, ITEM); 
+    targetItem->setBelongsTo(inventory);
 }
 
 void Player::dropItem(string name, Room* context){

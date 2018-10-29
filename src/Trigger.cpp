@@ -5,11 +5,6 @@ Trigger::Trigger():
     cmd(""), type("single"), print(""),
     stat(""), cond(NULL) {}
 
-/*
-Trigger::Trigger(const Trigger& trig) :
-    cmd(trig.cmd), type(trig.type), print(trig.print),
-    actions(trig.actions), stat(trig.stat), cond(trig.cond) {}
-*/
 
 Trigger::~Trigger(){
     if(cond) delete cond;

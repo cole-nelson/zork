@@ -18,8 +18,6 @@ public:
 	virtual ~Container();
 
     void addAccept(string);
-    void addItem(Item*);
-    Item* delItem(string);
     bool isOpen(){return open_stat;}
 
     void open();

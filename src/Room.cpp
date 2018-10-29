@@ -29,31 +29,10 @@ string Room::getNeighbor(Direction dir){
 
 GameObject* Room::searchContainers(const string& name){
     for(auto cont: containers){
+        if(!static_cast<Container*>(cont)->isOpen())continue;
         GameObject* ret = cont->searchCollection(name,ITEM);
         if(ret) return ret;
     }
-    return NULL;
-}
-
-GameObject* Room::searchCollection(const string& name){
-    
-    for(auto collect: collection){
-        for(auto item: *collect.second){
-            if(item->getName() == name) return item;
-        }
-    }
-    
-    return searchContainers(name);
-}
-
-GameObject* Room::searchCollection(const string& target, ObjectType type){
-     
-    for(auto collect: collection){
-        for(auto item: *collect.second){
-            if(item->getName() == target) return item;
-        }
-    }
-
     return NULL;
 }
 

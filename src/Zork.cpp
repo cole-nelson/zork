@@ -54,7 +54,6 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
             GameObject* targetObj = NULL;
 			if(has == (std::string)"") {
                 // object-status condition
-                cout << "staConditation Trigger " << context-> getName() << endl;
                 if(originalObjs.find(object) == originalObjs.end()){
                     cerr << "object name: " << object << "cannot be found" << endl;
                     exit(1);
@@ -62,7 +61,7 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
                 targetObj = originalObjs[object];
 				t->setCondition(new StatCondition(targetObj, stat));
 			} else {
-                cout << "search " << owner << " in " << context->getName() << endl;
+                //cout << "search " << owner << " in " << context->getName() << endl;
                 targetObj = originalObjs[owner];
                 t->setCondition(new HasCondition(context, has == "yes", object, targetObj));
             }
@@ -72,7 +71,7 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
             Action *a;
             if(x[0] == "Update") {
                 assert(originalObjs[x[1]]);
-                a = new UpdateAction(context, x[3]); //Update[0] <object>[1] to[2] <status>[3]
+                a = new UpdateAction(originalObjs[x[1]], x[3]); //Update[0] <object>[1] to[2] <status>[3]
             } else if(x[0] == "Delete") {
                 a = new DelAction(originalObjs[x[1]]->getBelongsTo(), x[1]); // Delete[0] <object>[1]
             } else if(x[0] == "Add") { 
@@ -105,6 +104,8 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
             }
             else if(attrName == "turnon") {
                 Item* obj = static_cast<Item*>(originalObjs[name]);
+                assert(obj);
+                cout << name << endl;
                 Trigger *t = constructTrigger(attr, obj, false);
                 t->setCondition(new TrueCondition());
                 t->setCommand("turn on");
@@ -167,7 +168,6 @@ void Zork::constructGame(const char *fname) {
                 }
             }
             originalObjs[new_Item->getName()] = new_Item; 
-            cout << new_Item->getName() << endl;
         }
         root = root->next_sibling();
     }
@@ -195,7 +195,7 @@ void Zork::constructGame(const char *fname) {
                     new_container->addAccept(attrValue);
                 } else if(attrName == "item"){
                     assert(originalObjs[attrValue]);
-                    new_container->addItem(static_cast<Item*>(originalObjs[attrValue]));
+                    new_container->addToCollection(originalObjs[attrValue],ITEM);
                     originalObjs[attrValue]->setBelongsTo(new_container);
                 }
             }

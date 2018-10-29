@@ -45,6 +45,7 @@ public:
     virtual string getName();
 	virtual string getStatus(); 
 	virtual string getDescription();
+    virtual GameObject* getBelongsTo();
 
     virtual GameObject* searchCollection(const string&);
     virtual GameObject* searchCollection(const string&, ObjectType);
@@ -56,7 +57,6 @@ public:
     virtual void addTriggers(Trigger*);
     virtual bool checkAllTriggers(string);
 
-    virtual GameObject* getBelongsTo();
 };
 
 

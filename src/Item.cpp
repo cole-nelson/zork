@@ -6,17 +6,7 @@ Item::Item():
     GameObject(),
     writing("Nothing written")/*, turnOnAct()*/{}
 
-    /*
-Item::Item(const Item& orig):
-    GameObject(orig),
-    writing(orig.writing), turnOnAct(orig.turnOnAct){}
-*/
-
 Item::~Item() {}
-
-/*void Item::addAction(Action *a) {
-	turnOnAct.push_back(a);
-}*/
 
 void Item::setTrigger(Trigger *t) {
     this->turnOnTrigger = t;
