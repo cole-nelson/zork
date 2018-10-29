@@ -15,8 +15,7 @@ Zork::Zork(char *fname) :
 }
 
 Zork::~Zork() {
-	for(auto obj:originalObjs) delete obj.second;
-    for(auto room:Rooms)       delete room.second;
+	for(auto obj:originalObjs) if(obj.second) delete obj.second;
 }
 
 Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *context, bool directAppend) {
