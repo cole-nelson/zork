@@ -11,6 +11,7 @@
 Zork::Zork(char *fname) : 
     gameOver(false), player(new Container()){
     originalObjs["inventory"] = player.inventory;
+    player.inventory->setName("inventory");
 	constructGame(fname);
 }
 
@@ -285,7 +286,7 @@ void Zork::playGame() {
     cout << loc_now->getDescription() << endl;
     while(!gameOver){
         string cmd, target1, target2;
-        cout << '>';
+        cout << endl << '>';
         getline(cin, cmd);
         
         // check triggers in the current context
@@ -312,41 +313,22 @@ void Zork::playGame() {
             target2 = cmd_ls[3];
         }
         
-        if(cmd == "n"){
-            loc_now = player.move(NORTH, loc_now, Rooms);
-        }
-        else if(cmd == "s"){
-            loc_now = player.move(SOUTH, loc_now, Rooms);
-        }
-        else if(cmd == "w"){
-            loc_now = player.move(WEST, loc_now, Rooms);
-        }
-        else if(cmd == "e"){
-            loc_now = player.move(EAST, loc_now, Rooms);
-        }
-        else if(cmd == "i"){
-            player.openInventory();
-        }
-        else if(cmd == "take"){
-            player.takeItem(target1, loc_now);
+        if(cmd == "n")loc_now = player.move(NORTH, loc_now, Rooms);
+        else if(cmd == "s")loc_now = player.move(SOUTH, loc_now, Rooms);
+        else if(cmd == "w")loc_now = player.move(WEST, loc_now, Rooms);
+        else if(cmd == "e")loc_now = player.move(EAST, loc_now, Rooms);
+        else if(cmd == "i")     player.openInventory();
+        else if(cmd == "take")  player.takeItem(target1, loc_now);
+        else if(cmd == "read")  player.readItem(target1);  
+        else if(cmd == "drop")  player.dropItem(target1, loc_now);
+        else if(cmd == "open" && target1 == "exit"){
+            if(loc_now->isExit()) gameOver = true;
+            else cout << "this room is not the exit" << endl;
         }
         else if(cmd == "open"){
-            if(target1 == "exit"){
-                if(loc_now->isExit()) {
-                	gameOver = true;
-                }
-            }
-            else{
-                Container* cont = static_cast<Container*>(loc_now->searchCollection(target1, CONTAINER));
-                if(!cont) cout << "container " << target1 << " does not exist" << endl;
-                else cont->open();
-            }
-        }
-        else if(cmd == "read"){
-            player.readItem(target1);  
-        }
-        else if(cmd == "drop"){
-            player.dropItem(target1, loc_now);
+            Container* cont = static_cast<Container*>(loc_now->searchCollection(target1, CONTAINER));
+            if(!cont) cout << "container " << target1 << " does not exist" << endl;
+            else cont->open();
         }
         else if(cmd == "put" && cmd_ls[2] == "in"){
             GameObject* retCont = loc_now->searchCollection(target2, CONTAINER);
@@ -357,13 +339,11 @@ void Zork::playGame() {
                 player.inventory->deleteFromCollection(target1, ITEM);
                 retCont->addToCollection(originalObjs[target1], ITEM);
             }
-
-
         }
         else if(cmd == "turn" && target1 == "on"){
         	Item *ret = static_cast<Item*>(player.inventory->searchCollection(target2, ITEM));
-            cout << "trying to turn on " << target2 << endl;
-        	if(ret != NULL)ret->turnOn();
+        	if(ret)ret->turnOn();
+            else cout << "you do not have " << target2 << " in your inventory..." << endl;
         }
         else if(cmd == "attack" && cmd_ls[2] == "with"){
             Creature *retCreature = static_cast<Creature*>(loc_now->searchCollection(target1, CREATURE));

@@ -42,7 +42,7 @@ void GameObject::addToCollection(GameObject* item, ObjectType type){
     
     
     if(collection.find(type) == collection.end()){
-        cout << "no such collection in " << name << endl;
+        //cout << "no such collection in " << name << endl;
         return;
     }
    
@@ -53,7 +53,7 @@ void GameObject::addToCollection(GameObject* item, ObjectType type){
 void GameObject::deleteFromCollection(string item, ObjectType type){
 
     if(collection.find(type) == collection.end()){
-        cout << "no such collection in " << name << endl;
+        //cout << "no such collection in " << name << endl;
         return;
     }
 
@@ -67,7 +67,7 @@ void GameObject::deleteFromCollection(string item, ObjectType type){
 
 void GameObject::deleteFromCollection(string item){
 
-    cout << "deleting " << item << " from " << name << endl;
+    //cout << "deleting " << item << " from " << name << endl;
     for(auto collect: collection){
         for(auto it = collect.second->begin();it != collect.second->end(); it++){
             if((*it)->getName() == item){
@@ -77,7 +77,7 @@ void GameObject::deleteFromCollection(string item){
         }
     }
 
-    cout << "no such item" << endl;
+    //cout << "no such item" << endl;
 }
 void GameObject::addTriggers(Trigger* trig){
     triggers.insert(trig);

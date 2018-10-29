@@ -33,7 +33,6 @@ void Trigger::fire(){
     if(print != ""){
         cout << print << endl;
     }
-
     // take action
     for(auto actionPtr:actions){
         actionPtr->exec();

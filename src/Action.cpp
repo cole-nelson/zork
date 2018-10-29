@@ -7,7 +7,6 @@ UpdateAction::~UpdateAction(){}
 
 void UpdateAction::exec(){
     target->setStatus(stat);
-    cout << printedText << endl;
 }
 
 
@@ -17,7 +16,7 @@ AddAction::AddAction(GameObject* target, GameObject* origItem):
 AddAction::~AddAction(){}
 
 void AddAction::exec(){
-    cout << "Adding " << origItem->getName() << " to " << target->getName() << endl;
+    //cout << "Adding " << origItem->getName() << " to " << target->getName() << endl;
     target->addToCollection(origItem, ITEM);
     origItem->setBelongsTo(target);
 }

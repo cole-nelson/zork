@@ -41,6 +41,6 @@ void Room::setType(string type){
 }
 
 bool Room::isExit(){
-    cout << type << endl;
+    // cout << type << endl;
     return type=="exit"?true:false;
 }

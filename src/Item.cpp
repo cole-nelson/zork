@@ -21,7 +21,7 @@ string Item::getWriting(){
 }
 
 void Item::turnOn(){
-    if(!turnOnTrigger) cout << "cannot turn on" << endl;
+    if(!turnOnTrigger) cout << "you cannot turn on " << name << endl;
     else if(turnOnTrigger->checkCondition("turn on")){
         turnOnTrigger->fire();
     }
