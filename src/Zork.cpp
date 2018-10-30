@@ -105,7 +105,6 @@ void Zork::linkTriggers(rapidxml::xml_node<>* root){
             else if(attrName == "turnon") {
                 Item* obj = static_cast<Item*>(originalObjs[name]);
                 assert(obj);
-                cout << name << endl;
                 Trigger *t = constructTrigger(attr, obj, false);
                 t->setCondition(new TrueCondition());
                 t->setCommand("turn on");
@@ -348,11 +347,11 @@ void Zork::playGame() {
         else if(cmd == "attack" && cmd_ls[2] == "with"){
             Creature *retCreature = static_cast<Creature*>(loc_now->searchCollection(target1, CREATURE));
             Item *retItem = static_cast<Item*>(player.inventory->searchCollection(target2, ITEM));
-            if(retCreature == NULL) cout << "there is no " << target1 << " in this room..." << endl;
+            if(retCreature == NULL) cout << "there is no creature " << target1 << " in this room..." << endl;
             else if(retItem == NULL) cout << "you do not have " << target2 << " in your inventory..." << endl;
             else {
                 retCreature->attack(target2);
-                player.inventory->deleteFromCollection(target2, ITEM);
+                //player.inventory->deleteFromCollection(target2, ITEM);
             }
         }
         else{

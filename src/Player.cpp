@@ -22,6 +22,7 @@ Room* Player::move(Direction dir, Room* from,
 void Player::readItem(string name){
     Item* ret = static_cast<Item*>(inventory->searchCollection(name,ITEM));
     if(ret) cout << ret->getWriting() << endl;
+    else cout << "you do not have " << name << " in your inventory";
 }
 
 void Player::takeItem(string name, Room* context){

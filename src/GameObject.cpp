@@ -29,10 +29,8 @@ GameObject* GameObject::searchCollection(const string& target){
 
 GameObject* GameObject::searchCollection(const string& target, ObjectType type){
      
-    for(auto collect: collection){
-        for(auto item: *collect.second){
-            if(item->getName() == target) return item;
-        }
+    for(auto item: *collection[type]){
+        if(item->getName() == target) return item;
     }
 
     return NULL;
