@@ -8,13 +8,12 @@
 #ifndef INC_GAMEOBJECT_H_
 #define INC_GAMEOBJECT_H_
 
-#include "Common.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
-#include "Trigger.h"
+class Trigger;
 using namespace std;
 
 enum ObjectType{

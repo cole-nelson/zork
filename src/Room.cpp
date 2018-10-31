@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include "../inc/Room.h"
+#include "../inc/Container.h"
 
 Room::Room():
     type("regular"),

@@ -25,6 +25,7 @@ string Trigger::getCommand() {return cmd;}
 string Trigger::getStatus() {return stat;}
 
 bool Trigger::checkCondition(string input_cmd){
+    cerr << "$" << input_cmd << "$ $" << cmd << "$" << endl;
     if(cmd != "" && cmd != input_cmd) return false; // nothing to do with this trigger
     return cond?cond->checkCondition():false;
 }
@@ -42,7 +43,7 @@ void Trigger::fire(){
 Condition::Condition(){}
 Condition::~Condition(){}
 
-HasCondition::HasCondition(GameObject *target, bool hs, std::string name, GameObject* owner):
+HasCondition::HasCondition(bool hs, std::string name, GameObject* owner):
     has(hs), hasName(name), owner(owner) {}
 
 HasCondition::~HasCondition(){}

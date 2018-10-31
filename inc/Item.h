@@ -9,20 +9,18 @@
 #define INC_ITEM_H_
 
 #include "GameObject.h"
-#include "Action.h"
 
 using namespace std;
+
 class Item : public GameObject {
 private:
 	string writing;
     Trigger *turnOnTrigger;
 public:
     Item();
-    //Item(const Item&);
 	virtual ~Item();
 
     void setWriting(string);
-    void addAction(Action*);
     void setTrigger(Trigger *t);
 	string getWriting();
     

@@ -1,13 +1,15 @@
-#ifndef TRIGGER_H_
-#define TRIGGER_H_
+#ifndef INC_TRIGGER_H_
+#define INC_TRIGGER_H_
 #include <string>
 #include <vector>
 #include <iostream>
+#include "GameObject.h"
 #include "Action.h"
+
+class GameObject;
 
 using namespace std;
 
-class GameObject;
 class Condition{
 public:
     Condition();
@@ -21,7 +23,7 @@ private:
     string hasName;
     GameObject* owner;
 public:
-    HasCondition(GameObject*, bool, string, GameObject*);
+    HasCondition(bool, string, GameObject*);
     virtual ~HasCondition();
     bool checkCondition();
 };
@@ -53,7 +55,6 @@ private:
 public:
     Condition* cond;
     Trigger();
-    //	Trigger(const Trigger&);
 	virtual ~Trigger();
 
 	virtual void setType(string);

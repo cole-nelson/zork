@@ -7,6 +7,9 @@
 
 #include "../inc/util.h"
 #include "../inc/Zork.h"
+#include "../inc/Trigger.h"
+#include "../inc/Creature.h"
+#include "../inc/Item.h"
 
 Zork::Zork(char *fname) : 
     gameOver(false), player(new Container()){
@@ -63,7 +66,7 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
 			} else {
                 //cout << "search " << owner << " in " << context->getName() << endl;
                 targetObj = originalObjs[owner];
-                t->setCondition(new HasCondition(context, has == "yes", object, targetObj));
+                t->setCondition(new HasCondition(has == "yes", object, targetObj));
             }
 
 		} else if(tAttr->name() == std::string ("action")) {
@@ -71,11 +74,15 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
             Action *a;
             if(x[0] == "Update") {
                 assert(originalObjs[x[1]]);
+                cout << "update action " << context -> getName() << endl;
                 a = new UpdateAction(originalObjs[x[1]], x[3]); //Update[0] <object>[1] to[2] <status>[3]
             } else if(x[0] == "Delete") {
                 a = new DelAction(originalObjs[x[1]]->getBelongsTo(), x[1]); // Delete[0] <object>[1]
             } else if(x[0] == "Add") { 
                 a = new AddAction(originalObjs[x[3]], originalObjs[x[1]]); // Add[0] <object>[1] to[2] <container>[3]
+            } else {
+                cout << "regular action: " << tAttr->value() << endl;
+                a = new RegularAction(tAttr->value(),this);
             }
             t->addAction(a);
         }  
@@ -278,19 +285,12 @@ void Zork::constructGame(const char *fname) {
     linkTriggers(doc.first_node()->first_node());
 }
 
-void Zork::playGame() {
-    cout << "Welcome to Zork" << endl << endl;
-    // initialization
-    Room* loc_now = entrance;
-    cout << loc_now->getDescription() << endl;
-    while(!gameOver){
-        string cmd, target1, target2;
-        cout << endl << '>';
-        getline(cin, cmd);
+void Zork::execCmd(string cmd){
+        string target1, target2;
         
         // check triggers in the current context
-        if(loc_now -> checkAllTriggers(cmd)) continue;
-        if(player.inventory -> checkAllTriggers(cmd)) continue;
+        if(loc_now -> checkAllTriggers(cmd)) return;
+        if(player.inventory -> checkAllTriggers(cmd)) return;
 
         vector<string> cmd_ls = SplitString(cmd, " ");
         if(cmd_ls.size() == 2){// take <item> | drop <itemp> | 
@@ -358,8 +358,22 @@ void Zork::playGame() {
             cout << "error" << endl;
         }
 
-        if(loc_now -> checkAllTriggers("")) continue;
-        if(player.inventory -> checkAllTriggers("")) continue;
+        if(loc_now -> checkAllTriggers("")) return;
+        if(player.inventory -> checkAllTriggers("")) return;
+
+}
+
+void Zork::playGame() {
+    cout << "Welcome to Zork" << endl << endl;
+    // initialization
+    loc_now = entrance;
+    cout << loc_now->getDescription() << endl;
+    while(!gameOver){
+        cout << endl << '>';
+        string cmd;
+        getline(cin, cmd);
+        execCmd(cmd);
+
     }
 
     cout << "Victory!" << endl;

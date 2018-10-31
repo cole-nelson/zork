@@ -1,4 +1,5 @@
 #include "../inc/GameObject.h"
+#include "../inc/Trigger.h"
 
 GameObject::GameObject():
     name("nameless"),stat("off"),desp("No description"),belongsTo(NULL)
@@ -92,17 +93,19 @@ bool GameObject::checkAllTriggers(string cmd){
             triggersIt != triggers.end(); triggersIt++){
 
         if((*triggersIt) -> checkCondition(cmd)){
-            (*triggersIt) -> fire();
+            Trigger* temp = *triggersIt;
             if((*triggersIt) -> getType() == "single"){
-                delete * triggersIt;
                 triggersIt = triggers.erase(triggersIt); 
             }
+            temp -> fire();
+            if((*triggersIt) -> getType() == "single") delete *triggersIt;
             return true;
         }
     }
 
     for(auto collect: collection){
         for(auto objPtr: *collect.second){
+            cerr << "checking " << objPtr -> getName() << endl;
             if(objPtr->checkAllTriggers(cmd)) return true;
         }
     }

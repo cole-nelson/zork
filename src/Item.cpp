@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include "../inc/Item.h"
+#include "../inc/Trigger.h"
 
 Item::Item():
     GameObject(),

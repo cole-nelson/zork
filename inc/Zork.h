@@ -8,8 +8,8 @@
 #ifndef INC_ZORK_H_
 #define INC_ZORK_H_
 
+#include "GameObject.h"
 #include "Player.h"
-#include "Trigger.h"
 #include "rapidxml.hpp"
 
 #include <unordered_map>
@@ -24,6 +24,8 @@ private:
     unordered_map<string, Room*> Rooms;                 // all Room objects
     Room* entrance;
     Player player;
+    
+    Room* loc_now;
 
     void linkTriggers(rapidxml::xml_node<>*);
 	Trigger* constructTrigger(rapidxml::xml_node<>*, GameObject*, bool);
@@ -32,6 +34,7 @@ public:
 	Zork(char *fname);
 	virtual ~Zork();
 	void constructGame(const char *fname);
+    void execCmd(string);
 	void playGame();
 };
 

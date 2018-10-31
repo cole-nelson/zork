@@ -1,7 +1,6 @@
 #ifndef INC_UTIL_H_
 #define INC_UTIL_H_
 
-#include "GameObject.h"
 #include <vector>
 #include <string>
 

@@ -2,7 +2,9 @@
 #define INC_ACTION_H_
 
 #include <string>
-#include "GameObject.h"
+
+class GameObject;
+class Zork;
 
 using namespace std;
 
@@ -40,5 +42,14 @@ public:
     virtual void exec();
 };
 
+class RegularAction: public Action{
+    string cmd;
+    Zork* game;
+public:
+    RegularAction(string, Zork*);
+    virtual ~RegularAction();
+    virtual void exec();
+};
 
-#endif
+
+#endif /* INC_ACTION_H_ */

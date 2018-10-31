@@ -1,4 +1,5 @@
 #include "../inc/Player.h"
+#include "../inc/Item.h"
 
 Player::Player(Container* inventory):
     inventory(inventory){}

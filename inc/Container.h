@@ -1,9 +1,9 @@
 #ifndef INC_CONTAINER_H_
 #define INC_CONTAINER_H_
+
 #include <vector>
 #include <unordered_set>
 #include "GameObject.h"
-#include "Item.h"
 
 using namespace std;
 

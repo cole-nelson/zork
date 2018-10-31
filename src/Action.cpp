@@ -1,4 +1,6 @@
 #include "../inc/Action.h"
+#include "../inc/GameObject.h"
+#include "../inc/Zork.h"
 
 UpdateAction::UpdateAction(GameObject* target, string stat):
     Action(target), stat(stat){}
@@ -29,4 +31,14 @@ DelAction::~DelAction(){}
 
 void DelAction::exec(){
    if(target)target->deleteFromCollection(nameToDelete);
+}
+
+
+RegularAction::RegularAction(string cmd, Zork* game):
+    Action(NULL), cmd(cmd), game(game){}
+
+RegularAction::~RegularAction(){}
+
+void RegularAction::exec(){
+    game->execCmd(cmd);
 }

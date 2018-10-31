@@ -4,10 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "../inc/GameObject.h"
-#include "../inc/Container.h"
-#include "../inc/Item.h"
-#include "../inc/Creature.h"
+#include "GameObject.h"
 
 using namespace std;
 

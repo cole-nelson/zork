@@ -1,14 +1,12 @@
 #ifndef INC_PLAYER_H_
 #define INC_PLAYER_H_
 
-#include "GameObject.h"
-#include "Container.h"
-#include "Item.h"
-#include "Room.h"
 
 #include <unordered_map>
 #include <iostream>
 #include <string>
+#include "Container.h"
+#include "Room.h"
 
 using namespace std;
 

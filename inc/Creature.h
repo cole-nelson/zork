@@ -1,9 +1,9 @@
 #ifndef INC_CREATURE_H_
 #define INC_CREATURE_H_
+
 #include <vector>
 #include <unordered_set>
 #include "GameObject.h"
-#include "Action.h"
 
 using namespace std;
 
