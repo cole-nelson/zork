@@ -21,7 +21,7 @@ void Creature::attack(string name){
         cout << "not really effective..." << endl;
     }
     else{
-        cout << "You assult " << this->name << " with " << name << endl;
+        cout << "You assult the " << this->name << " with " << name << endl;
         if(attackTrigger){
             if(attackTrigger->checkCondition("")) attackTrigger->fire();
             else cout << "not really effective..." << endl;
