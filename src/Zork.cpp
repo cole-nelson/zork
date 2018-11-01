@@ -321,7 +321,7 @@ void Zork::execCmd(string cmd){
         else if(cmd == "read")  player.readItem(target1);  
         else if(cmd == "drop")  player.dropItem(target1, loc_now);
         else if(cmd == "open" && target1 == "exit"){
-            if(loc_now->isExit()) gameOver = true;
+            if(loc_now->isExit()) GameOver();
             else cout << "this room is not the exit" << endl;
         }
         else if(cmd == "open"){

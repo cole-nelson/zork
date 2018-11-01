@@ -40,5 +40,8 @@ RegularAction::RegularAction(string cmd, Zork* game):
 RegularAction::~RegularAction(){}
 
 void RegularAction::exec(){
-    game->execCmd(cmd);
+    if(cmd == "Game Over"){
+        game->GameOver();
+    }
+    else game->execCmd(cmd);
 }

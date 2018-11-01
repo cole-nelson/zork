@@ -36,6 +36,7 @@ public:
 	void constructGame(const char *fname);
     void execCmd(string);
 	void playGame();
+    void GameOver(){gameOver = true;}
 };
 
 
