@@ -32,9 +32,7 @@ void Player::takeItem(string name, Room* context){
     if(!targetItem){
         cout << name << " does not exist..." << endl;
         return;
-    } else {
-        cout << "Added " << name << " to inventory." << endl;
-    }
+    } 
 
     targetItem->getBelongsTo()->deleteFromCollection(name, ITEM);
     inventory->addToCollection(targetItem, ITEM); 

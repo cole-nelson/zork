@@ -316,10 +316,19 @@ void Zork::execCmd(string cmd){
         else if(cmd == "s")loc_now = player.move(SOUTH, loc_now, Rooms);
         else if(cmd == "w")loc_now = player.move(WEST, loc_now, Rooms);
         else if(cmd == "e")loc_now = player.move(EAST, loc_now, Rooms);
-        else if(cmd == "i")     player.openInventory();
-        else if(cmd == "take")  player.takeItem(target1, loc_now);
+        else if(cmd == "i") {
+            cout << "Inventory: " << endl;
+            player.openInventory();
+        }
+        else if(cmd == "take")  {
+            cout << "Took the " << target1 << " and put it in your bag" << endl;
+            player.takeItem(target1, loc_now);
+        }
         else if(cmd == "read")  player.readItem(target1);  
-        else if(cmd == "drop")  player.dropItem(target1, loc_now);
+        else if(cmd == "drop")  {
+            cout << "The " << target1 << " clatters to the floor" << endl;
+            player.dropItem(target1, loc_now);
+        }
         else if(cmd == "open" && target1 == "exit"){
             if(loc_now->isExit()) GameOver();
             else cout << "this room is not the exit" << endl;
