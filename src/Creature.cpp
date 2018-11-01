@@ -17,11 +17,14 @@ void Creature::setAttackTrigger(Trigger* attackTrigger){
 }
 
 void Creature::attack(string name){
-    if(!attackTrigger || vulnerabilities.find(name) == vulnerabilities.end()){
+    if(vulnerabilities.find(name) == vulnerabilities.end()){
         cout << "not really effective..." << endl;
     }
     else{
-        if(attackTrigger->checkCondition("")) attackTrigger->fire();
-        else cout << "not really effective..." << endl;
+        cout << "You assult " << this->name << " with " << name << endl;
+        if(attackTrigger){
+            if(attackTrigger->checkCondition("")) attackTrigger->fire();
+            else cout << "not really effective..." << endl;
+        }
     }
 }

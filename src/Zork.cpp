@@ -58,7 +58,7 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
 			if(has == (std::string)"") {
                 // object-status condition
                 if(originalObjs.find(object) == originalObjs.end()){
-                    cerr << "object name: " << object << "cannot be found" << endl;
+                    //cerr << "object name: " << object << "cannot be found" << endl;
                     exit(1);
                 }
                 targetObj = originalObjs[object];
@@ -74,14 +74,14 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
             Action *a;
             if(x[0] == "Update") {
                 assert(originalObjs[x[1]]);
-                cout << "update action " << context -> getName() << endl;
+                //cout << "update action " << context -> getName() << endl;
                 a = new UpdateAction(originalObjs[x[1]], x[3]); //Update[0] <object>[1] to[2] <status>[3]
             } else if(x[0] == "Delete") {
                 a = new DelAction(originalObjs[x[1]]->getBelongsTo(), x[1]); // Delete[0] <object>[1]
             } else if(x[0] == "Add") { 
                 a = new AddAction(originalObjs[x[3]], originalObjs[x[1]]); // Add[0] <object>[1] to[2] <container>[3]
             } else {
-                cout << "regular action: " << tAttr->value() << endl;
+                //cout << "regular action: " << tAttr->value() << endl;
                 a = new RegularAction(tAttr->value(),this);
             }
             t->addAction(a);
