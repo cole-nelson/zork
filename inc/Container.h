@@ -19,6 +19,7 @@ public:
 
     void addAccept(string);
     bool isOpen(){return open_stat;}
+    bool accepts(string);
 
     void open();
 };

@@ -327,13 +327,18 @@ void Zork::execCmd(string cmd){
         else if(cmd == "open"){
             Container* cont = static_cast<Container*>(loc_now->searchCollection(target1, CONTAINER));
             if(!cont) cout << "container " << target1 << " does not exist" << endl;
-            else cont->open();
+            else {
+                cout << "Inside the " << target1 << ", you find: " << endl;
+                cont->open();
+            }
         }
         else if(cmd == "put" && cmd_ls[2] == "in"){
             GameObject* retCont = loc_now->searchCollection(target2, CONTAINER);
             GameObject* retItem = player.inventory->searchCollection(target1, ITEM);
+            Container* cont = static_cast<Container*>(retCont);
             if(!retCont) cout << "there is no " << target1 << " in this room..." << endl;
             else if (!retItem) cout << "you do not have " << target2 << " in your inventory..." << endl;
+            else if(!cont->accepts(target1)) cout << "Can't put " << target1 << " in " << target2 << endl;
             else{
                 player.inventory->deleteFromCollection(target1, ITEM);
                 retCont->addToCollection(originalObjs[target1], ITEM);
@@ -347,7 +352,7 @@ void Zork::execCmd(string cmd){
         else if(cmd == "attack" && cmd_ls[2] == "with"){
             Creature *retCreature = static_cast<Creature*>(loc_now->searchCollection(target1, CREATURE));
             Item *retItem = static_cast<Item*>(player.inventory->searchCollection(target2, ITEM));
-            if(retCreature == NULL) cout << "there is no creature " << target1 << " in this room..." << endl;
+            if(retCreature == NULL) cout << "there is no " << target1 << " in this room..." << endl;
             else if(retItem == NULL) cout << "you do not have " << target2 << " in your inventory..." << endl;
             else {
                 retCreature->attack(target2);

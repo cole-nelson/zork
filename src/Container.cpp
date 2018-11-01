@@ -13,6 +13,10 @@ void Container::addAccept(string name){
     accept.insert(name);
 }
 
+bool Container::accepts(string name) {
+    return accept.find(name) != accept.end(); // in the set?
+}
+
 void Container::open(){
     open_stat = true;
     if(!items.size()){
