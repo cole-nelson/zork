@@ -98,14 +98,14 @@ bool GameObject::checkAllTriggers(string cmd){
                 triggersIt = triggers.erase(triggersIt); 
             }
             temp -> fire();
-            if((*triggersIt) -> getType() == "single") delete *triggersIt;
+            if(temp -> getType() == "single") delete temp;
             return true;
         }
     }
 
     for(auto collect: collection){
         for(auto objPtr: *collect.second){
-            cerr << "checking " << objPtr -> getName() << endl;
+            //cerr << "checking " << objPtr -> getName() << endl;
             if(objPtr->checkAllTriggers(cmd)) return true;
         }
     }

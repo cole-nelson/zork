@@ -25,7 +25,7 @@ string Trigger::getCommand() {return cmd;}
 string Trigger::getStatus() {return stat;}
 
 bool Trigger::checkCondition(string input_cmd){
-    cerr << "$" << input_cmd << "$ $" << cmd << "$" << endl;
+    //cerr << "$" << input_cmd << "$ $" << cmd << "$" << endl;
     if(cmd != "" && cmd != input_cmd) return false; // nothing to do with this trigger
     return cond?cond->checkCondition():false;
 }
