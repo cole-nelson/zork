@@ -18,8 +18,8 @@ AddAction::AddAction(GameObject* target, GameObject* origItem):
 AddAction::~AddAction(){}
 
 void AddAction::exec(){
-    cout << "Adding " << origItem->getName() << " to " << target->getName() << endl;
-    target->addToCollection(origItem, ITEM);
+    //cout << "Adding " << origItem->getName() << " to " << target->getName() << endl;
+    target->addToCollection(origItem, origItem->tp);
     origItem->setBelongsTo(target);
 }
 

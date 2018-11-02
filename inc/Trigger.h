@@ -42,7 +42,7 @@ class TrueCondition : public Condition {
 public:
 	TrueCondition() {};
 	virtual ~TrueCondition() {};
-	bool checkCondition() {cout << "this should be true" << endl; return true;}
+	bool checkCondition() { return true;}
 };
 
 class Trigger{
