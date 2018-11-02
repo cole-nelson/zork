@@ -20,6 +20,7 @@ using namespace std;
 class Zork {
 private:
 	bool gameOver;
+    bool won;
 	unordered_map<string, GameObject*> originalObjs;    // reserved
     unordered_map<string, Room*> Rooms;                 // all Room objects
     Room* entrance;
@@ -36,7 +37,8 @@ public:
 	void constructGame(const char *fname);
     void execCmd(string);
 	void playGame();
-    void GameOver(){gameOver = true;}
+    void GameOver() { gameOver = true;}
+    void Won() { won = true; }
 };
 
 

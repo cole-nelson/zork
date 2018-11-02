@@ -41,6 +41,7 @@ RegularAction::~RegularAction(){}
 
 void RegularAction::exec(){
     if(cmd == "Game Over"){
+        game->Won();
         game->GameOver();
     }
     else game->execCmd(cmd);

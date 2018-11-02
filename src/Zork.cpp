@@ -12,7 +12,7 @@
 #include "../inc/Item.h"
 
 Zork::Zork(char *fname) : 
-    gameOver(false), player(new Container()){
+    gameOver(false), won(false), player(new Container()){
     originalObjs["inventory"] = player.inventory;
     player.inventory->setName("inventory");
 	constructGame(fname);
@@ -390,5 +390,10 @@ void Zork::playGame() {
 
     }
 
-    cout << "Victory!" << endl;
+    if(won) {
+        cout << "Victory!" << endl;
+    } else {
+        cout << "Game Over" << endl;
+    }
+
 }
