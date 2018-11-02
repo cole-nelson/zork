@@ -28,6 +28,7 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
 	 * due to different handling
 	 ***************************************************/
 	Trigger *t = new Trigger();
+    t->setCondition(new TrueCondition());
     if(directAppend)context -> addTriggers(t);
 	std::string has = "", owner, stat, object;
 	for(rapidxml::xml_node<> *tAttr = trig_node->first_node();
@@ -62,9 +63,11 @@ Trigger * Zork::constructTrigger(rapidxml::xml_node<> *trig_node, GameObject *co
                     exit(1);
                 }
                 targetObj = originalObjs[object];
+                delete t->cond;
 				t->setCondition(new StatCondition(targetObj, stat));
 			} else {
                 //cout << "search " << owner << " in " << context->getName() << endl;
+                delete t->cond;
                 targetObj = originalObjs[owner];
                 t->setCondition(new HasCondition(has == "yes", object, targetObj));
             }
