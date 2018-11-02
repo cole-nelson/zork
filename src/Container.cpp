@@ -14,6 +14,7 @@ void Container::addAccept(string name){
 }
 
 bool Container::accepts(string name) {
+    if(accept.empty()) return true;
     return accept.find(name) != accept.end(); // in the set?
 }
 
