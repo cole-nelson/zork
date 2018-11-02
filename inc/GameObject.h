@@ -32,6 +32,7 @@ protected:
     GameObject* belongsTo;
 
 public:
+    ObjectType tp;
 	GameObject();
     //GameObject(const GameObject&);
 	virtual ~GameObject();              

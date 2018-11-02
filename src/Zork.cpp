@@ -161,6 +161,7 @@ void Zork::constructGame(const char *fname) {
     while(root != NULL) {
         if(root->name() == (string)"item"){
             Item* new_Item = new Item();
+            new_Item->tp = ITEM;
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
@@ -188,6 +189,7 @@ void Zork::constructGame(const char *fname) {
         //unordered_set<string>* accept = new unordered_set<string>;
         if(root->name() == (string)"container"){
             Container* new_container = new Container();
+            new_container -> tp = CONTAINER;
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
@@ -220,6 +222,7 @@ void Zork::constructGame(const char *fname) {
 
         if(root->name() == (string)"creature"){
             Creature* new_creature = new Creature();
+            new_creature -> tp = CREATURE;
             for(rapidxml::xml_node<> *attr = root->first_node(); 
                     attr != NULL; attr = attr->next_sibling()) {
 
